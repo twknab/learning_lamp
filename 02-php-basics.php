@@ -10,6 +10,7 @@ In php, multi-line commenting and regular commenting is the same as in JavaScrip
 // Check out the HTML & PHP example below:
 
 // define a variable in PHP
+// (variables should be lower case, and $in_snake_case_only, starting with a $)
 $intro = "Hello World!";
 $fname = "Tim";
 
