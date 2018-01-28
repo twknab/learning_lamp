@@ -1,11 +1,11 @@
+<?php
 
 // PHP is a server side language that can convert things into HTML/CSS/JS for consumption from web clients.
 
 // Go ahead and run apache (download the program MAMP and run the application), and run this file to see the output:
-<?php
+
 echo "something here";
 echo phpinfo();
-?>
 
 // Note: Look in your mamp preferences, and change your document root to your primary parent folder for all of your projects. (This is what will be loaded when you run your apache server and navigate to http://localhost:8888)
 
@@ -16,3 +16,5 @@ echo phpinfo();
 // Open the `php.ini` file and for `html_errors` and `display_errors` turn to `On`.
 
 // Uncomment (remove the `;`) from `xdebug` (zend_extension)
+
+?>
