@@ -54,6 +54,11 @@ $fname = "Tim";
   // prints 30.023
   // also remember: "." is a concatenation operator
 
+  // Other data types like:
+  $am_i_here = true;
+  $is_it_xmas = false;
+
+  $literally = 'Like, this is a string literal.';
   ?>
 </body>
 </html>
