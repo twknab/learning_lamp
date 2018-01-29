@@ -26,7 +26,7 @@ $fname = "Tim";
   <title>My first PHP Page</title>
 </head>
 <body>
-  <pre>See server side source document for full conted of this page</pre>
+  <pre>See server side source document for full content of this page</pre>
   <h1><?php echo $intro ?></h1>
   <p>My name is <?php echo $fname ?>. It's nice to meet you!</>
 
