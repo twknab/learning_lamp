@@ -139,5 +139,4 @@ $height = 3;
 
 <!--
 Notes: Struggled with this one a bit. I put the whole code snippets into the project to get some direction, but seem to get tripped up a bit with the logic. I'm going to move on for now to keep efficiency. For now, I've got a 3x3 multiplication table setup started, and have the styles in place. I've just got values hard-coded for now above, and the whole thing ideally should be put into a function so we can simply run it, with some width and height arguments, and spit out a mulitplication table.
-
 -->
