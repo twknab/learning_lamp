@@ -1,9 +1,6 @@
 <?php
 session_start();
 
-// Setup our upload directory:
-$target_dir = 'upload/';
-
 if ($_POST) {
 
   // * -----------------
@@ -111,27 +108,52 @@ if ($_POST) {
   // *
   // * 4. Profile Photo
   // *
+  // * Note: We use a superglobal, pre-defined variable called $_FILES to help
+  // * upload, validate and store our file. See these links for more:
+  // *
+  // * http://php.net/manual/en/features.file-upload.post-method.php
+  // * https://secure.php.net/manual/en/reserved.variables.files.php
+  // * http://www.php.net/manual/en/features.file-upload.errors.php
+  // * https://www.w3schools.com/php/php_file_upload.asp
+  // *
 
-  if ($_FILES["profile_photo"]["name"]){
-    $_SESSION["success"] = "YESAHH";
-    // if no errors:
+  if ($_FILES["profile_photo"]["name"]){ // if photo is submitted:
+    // Note:
+    // Array keys:
+    // - `profile_photo` is the name="" attribute in the HTML
+
+    $_SESSION["files"] = $_FILES;
+
+    // Setup our upload target path for our file:
+    $currentdir = getcwd(); // gets current working directory
+    $target = $currentdir ."/upload/" .  basename($_FILES["profile_photo"]["name"]); // defines target location
+
+    // Note: It's good to do some validations of the actual file using, finfo, to ensure that this file is indeed an image, and no malicious scripts pretending to be an image. It is also a good idea to restrict only certain file types from being uploaded.
+
+    // I was having trouble however, figuring out how to use finfo at the time of writing this code. I was also gathering some mixed suggestions on the proper way to *truly* verify a file. It seems that many common methods can be easily duped. 
+
+    // If no errors during temp upload:
     if (!$_FILES["profile_photo"]["error"]) {
 
-      // modify future file and validate:
+      // Modify future file and validate:
       $new_file_name = strtolower($_FILES["profile_photo"]["tmp_name"]); // renames file
 
-      // Can't be larger than 1MB
-      if ($_FILES["profile_photo"]["size"] > (1024000)) {
-        $_SESSION["errors"]["profile_photo"] = "Oops! Your file's size is too large (cannot be greater than 1MB).";
+      // Check if file already exists:
+      if (file_exists($target)) {
+        $_SESSION["errors"]["profile_photo"] = "Oops! A file with this name already exists. Rename your file and try again.";
         $_SESSION["status"]["profile_photo"] = "error";
-      }
-    }
+      };
 
-    $_SESSION["file_info"] = array();
-    $_SESSION["file_info"][] = $_FILES['profile_photo']['name'];
-    $_SESSION["file_info"][] = $_FILES['profile_photo']['size'];
-    $_SESSION["file_info"][] = $_FILES['profile_photo']['type'];
-    $_SESSION["file_info"][] = $_FILES['profile_photo']['tmp_name'];
+      // Can't be larger than 5MB:
+      if ($_FILES["profile_photo"]["size"] > (5242880)) {
+        $_SESSION["errors"]["profile_photo"] = "Oops! Your file's size is too large (cannot be greater than 5MB).";
+        $_SESSION["status"]["profile_photo"] = "error";
+      };
+
+    };
+  } else { // If there's an error with temp upload:
+    $_SESSION["errors"]["profile_photo"] = "Oops! Your file could not be uploaded. Please contact the administrator and describe your issue.";
+    $_SESSION["status"]["profile_photo"] = "error";
   }
 
 
@@ -147,8 +169,6 @@ if ($_POST) {
     // If image is submitted, store it:
     if ($_FILES["profile_photo"]["name"]) {
       // Store the file by moving it to where we want it to be:
-      $currentdir = getcwd();
-      $target = $currentdir ."/upload/" . basename($_FILES["profile_photo"]["name"]);
       move_uploaded_file($_FILES["profile_photo"]["tmp_name"], $target);
       $_SESSION["success"] = "Congratulations! Your file was accepted and you've been successfully registered.";
 

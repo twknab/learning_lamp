@@ -17,7 +17,7 @@ if (isset($_SESSION["registered"])) { // if user already registered
       input { margin-bottom: 15px; width: 97%; padding: 5px; }
       input[type="submit"] { padding: 10px; }
       .error { border: 2px solid orange; }
-      .error + p { color: orange; font-weight: bold; font-style: italic; }
+      .error + p { color: orange; font-weight: bold; }
       .success { border: 2px solid lightgreen; }
     </style>
   </head>
