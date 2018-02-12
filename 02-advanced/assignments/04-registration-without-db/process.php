@@ -130,7 +130,10 @@ if ($_POST) {
 
     // Note: It's good to do some validations of the actual file using, finfo, to ensure that this file is indeed an image, and no malicious scripts pretending to be an image. It is also a good idea to restrict only certain file types from being uploaded.
 
-    // I was having trouble however, figuring out how to use finfo at the time of writing this code. I was also gathering some mixed suggestions on the proper way to *truly* verify a file. It seems that many common methods can be easily duped. 
+    // I was having trouble however, figuring out how to use finfo at the time of writing this code. I was also gathering some mixed suggestions on the proper way to *truly* verify a file. It seems that many common methods can be easily duped.
+
+    // See: http://php.net/manual/en/function.finfo-file.php
+    // http://php.net/manual/en/function.finfo-open.php
 
     // If no errors during temp upload:
     if (!$_FILES["profile_photo"]["error"]) {
