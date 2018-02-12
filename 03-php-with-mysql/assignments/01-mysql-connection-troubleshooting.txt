@@ -1,0 +1,16 @@
+In this assignment, we are to try and break the MySQL and PHP connection in various ways, and log the errors that we receive:
+
+# Wrong DB Name:
++ Failed to connect to MySQL: (1049) Unknown database 'my_first_pp_db'Failed to connect to MySQL: (1049) Unknown database 'my_first_pp_db'
+
+# No Username:
++ Failed to connect to MySQL: (1044) Access denied for user ''@'localhost' to database 'my_first_php_db'Failed to connect to MySQL: (1044) Access denied for user ''@'localhost' to database 'my_first_php_db'
+
+# Wrong Username:
++ Failed to connect to MySQL: (1044) Access denied for user 'asdf'@'localhost' to database 'my_first_php_db'Failed to connect to MySQL: (1044) Access denied for user 'asdf'@'localhost' to database 'my_first_php_db'
+
+# Wrong Password:
++ Failed to connect to MySQL: (1045) Access denied for user 'root'@'localhost' (using password: YES)Failed to connect to MySQL: (1045) Access denied for user 'root'@'localhost' (using password: YES)
+
+# No Password
++ Failed to connect to MySQL: (1045) Access denied for user 'root'@'localhost' (using password: NO)Failed to connect to MySQL: (1045) Access denied for user 'root'@'localhost' (using password: NO)

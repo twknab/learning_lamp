@@ -16,9 +16,9 @@ As we proceed, just understand that MAMP creates a MySQL server, and we then eit
 // Step 2: Let's create some "constant" variables (Note: constant variables cannot be changed once defined and are immutable).
 
 define("DB_HOST", "localhost"); // defines DB_HOST as "localhost" (the server address)
-define("DB_USER", "root"); // defines DB_USER as root
+define("DB_USER", "asdf"); // defines DB_USER as root
 define("DB_PASS", "root"); // set DB_PASS as whatever is string
-define("DB_DATABASE", "my_first_php_db"); // set DB_DATABASE as my_first_php_db
+define("DB_DATABASE", "my_first_pp_db"); // set DB_DATABASE as my_first_php_db
 
 // Connect to database:
 $connection = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_DATABASE);
