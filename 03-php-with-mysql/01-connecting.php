@@ -57,5 +57,5 @@ foreach($users as $user) {
 }
 echo "</fieldset>";
 
-
+// Note: Be sure you've forward engineered a schema and setup a table before attempting to spit out any data. I haven't included this here in this intro, as you did this a lot during your Python learning. But if you've read this note and things weren't working...make sure that you've created a DB!
 ?>
