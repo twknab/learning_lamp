@@ -1,6 +1,6 @@
 <?php
 /*
-A few notes: When we start MAMP we also run a MySQL server. We can use MySQL workbench to create or manipulate schemas, conneceting to our MySQL server. This is covered more in depth in the `learning-python` repository of mine.
+A few notes: When we start MAMP we also run a MySQL server. We can use MySQL workbench to create or manipulate schemas, connecting to our MySQL server. This is covered more in depth in the `learning-python` repository of mine.
 
 We can also use phpMyAdmin to manipulate our data, if we don't have MySQL Workbench installed (this is cool):
 

@@ -31,7 +31,7 @@ foreach($exams as $exam) {
 // As mentioned on the variables tab, we can implement the better way of printing both strings and variables like this:
 
 foreach($exams as $exam) {
- echo "<p> $exam['title'] - $exam['language'] </p>";
+ echo "<p> ${exam['title']} - ${exam['language']} </p>";
 }
 
 // But wait... When you run the code above you will receive a very weird error message!
