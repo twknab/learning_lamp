@@ -11,8 +11,8 @@ function login($email, $password) {
   if ($user) {
     echo "You are logged in!";
   } else {
-    echo "Error! Wrong email and password!"
-  }
+    echo "Error! Wrong email and password!";
+  };
   echo $query;
 }
 
