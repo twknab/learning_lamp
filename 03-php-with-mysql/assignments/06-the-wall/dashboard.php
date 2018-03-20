@@ -39,25 +39,36 @@ require("process-dashboard.php")
   <input type="submit" value="Post!">
   </form>
   <!-- Messages  -->
-  <?php 
-  foreach ($messages as $post) {
-  ?>
-  <div class="msg">
-    <strong><?=$post['first_name'] . " " . $post['last_name']?> - <?=date_format(date_create($post["created_at"]), 'F jS Y')?></strong>
-    <p><?=$post['message']?></p>
+  <div id="messages">
+    <?php 
+    foreach ($messages as $post) {
+    ?>
+    <div class="msg">
+      <strong><?=$post['first_name'] . " " . $post['last_name']?> - <?=date_format(date_create($post["created_at"]), 'F jS Y')?></strong>
+      <p><?=$post['message']?></p>
+    </div>
+    <div class="comments">
+      <!-- Comments -->
+      <?php foreach ($comments as $comment) {
+        if ($comment['message_id'] === $post['message_id']) {
+      ?>
+        <div>
+          <strong><?=$post['first_name'] . " " . $comment['last_name']?> - <?=date_format(date_create($comment["created_at"]), 'F jS Y')?></strong>
+          <p><?=$comment['comment']?></p>
+        </div>
+      <?php
+        }
+      } ?>
+      <h5>Post a Comment</h5>
+      <!-- New Comment  -->
+      <form action="/process.php" method="POST">
+        <input type="hidden" name="form_type" value="comment">
+        <input type="hidden" name="message_id" value="<?=$post['message_id']?>">
+        <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
+        <input type="submit" value="Comment!">
+      </form>
+    </div>
+    <?php } ?>
   </div>
-  <!-- Comments -->
-
-  <!-- New Comment  -->
-  <div class="comments">
-    <h5>Post a Comment</h5>
-    <form action="/process.php" method="POST">
-      <input type="hidden" name="form_type" value="comment">
-      <input type="hidden" name="message_id" value="<?=$post['message_id']?>">
-      <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
-      <input type="submit" value="Comment!">
-    </form>
-  </div>
-  <?php } ?>
 </body>
 </html>

@@ -8,5 +8,20 @@
 }
 
 .comments {
-  margin-left: 30px;
+  margin-left: 50px;
+  padding: 10px;
+  background-color: lightyellow;
+  border: 5px solid lightgoldenrodyellow;
+}
+
+.msg {
+  margin-top: 60px;
+  padding: 10px;
+  background-color: lightcyan;
+  border: 5px solid lightseagreen;
+}
+
+#messages {
+  /* margin-top: 30px; */
+  padding: 10px;
 }
