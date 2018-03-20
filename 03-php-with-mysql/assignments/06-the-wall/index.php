@@ -34,7 +34,8 @@ session_start();
   </form>
   
   <h1>Register</h1>
-    <?php 
+  <form action="/process.php" method="POST">
+  <?php 
   if (isset($_SESSION["reg_errors"]) && $_SESSION["reg_errors"]) {
     foreach ($_SESSION["reg_errors"] as $message) {
    ?>
@@ -45,7 +46,6 @@ session_start();
     }
   }
   ?>
-  <form action="/process.php" method="POST">
   <input type="hidden" name="form_type" value="register">
   First Name: <input type="text" name="first_name" id="first_name" placeholder="First Name">
   Last Name: <input type="text" name="last_name" id="last_name" placeholder="Last Name">

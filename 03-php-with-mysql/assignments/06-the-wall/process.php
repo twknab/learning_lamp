@@ -215,18 +215,45 @@ if ($_POST && isset($_POST["form_type"]) && $_POST["form_type"] === "message") {
   // Validate login:
   $_SESSION["message_errors"] = array();
   
-   // Escape all fields pior to validation:
+  // Escape all fields pior to validation:
   foreach ($_POST as $field => $value) {
+    $value = trim($value); // remove any white space
     $value = escape_this_string($value);
   }
 
+  //%%%%%%%%%%%%/
+  // ALL FIELDS & MIN/MAX LENGTH
+  //%%%%%%%%%%%%/
+  if (count($_POST) < 2) {
+    $_SESSION["message_errors"][] = "Message cannot be empty.";
+    header("Location: dashboard.php");
+    die();
+  }
+  if (strlen($_POST["message"]) < 2 || strlen($_POST["message"]) > 3000) {
+    $_SESSION["message_errors"][] = "Message must be at least 2 characaters and less than 3000 characters.";
+  }
+  // Developer note: Empty strings e.g: "         " should not pass due to use of `trim()` in the `foreach` loop which also `escapes_this_string` (escapes the string)
+  
+  //%%%%%%%%%%%%/
+  // ERROR CHECK
+  //%%%%%%%%%%%%/
   // If any errors were given, reload page:
   if (count($_SESSION["message_errors"]) > 0) {
     header("Location: dashboard.php");
-  } else {
-    // Form validated: 
-    // Send to database (strings already escaped):
+    die();
   }
+
+  //%%%%%%%%%%%%/
+  // VALIDATED
+  //%%%%%%%%%%%%/
+  // Message validated: 
+  // Send to database (strings already escaped):
+  $query = "INSERT INTO messages (message, user_id, created_at, updated_at) VALUES ('${_POST['message']}', '${_SESSION['user_id']}', NOW(), NOW())";
+  // Run query:
+  run_mysql_query($query);
+  // Return to Dashboard:
+  header("Location: dashboard.php");
+  die();
 }
 
 // ****************** //
@@ -240,16 +267,43 @@ if ($_POST && isset($_POST["form_type"]) && $_POST["form_type"] === "comment") {
   
    // Escape all fields pior to validation:
   foreach ($_POST as $field => $value) {
+    $value = trim($value); // remove white space
     $value = escape_this_string($value);
   }
 
+  //%%%%%%%%%%%%/
+  // ALL FIELDS & MIN/MAX LENGTH
+  //%%%%%%%%%%%%/
+  if (count($_POST) < 3) {
+    $_SESSION["comment_errors"][] = "Comment cannot be empty.";
+    header("Location: dashboard.php");
+    die();
+  }
+  if (strlen($_POST["comment"]) < 2 || strlen($_POST["comment"]) > 3000) {
+    $_SESSION["comment_errors"][] = "Comment must be at least 2 characaters and less than 3000 characters.";
+  }
+
+  //%%%%%%%%%%%%/
+  // ERROR CHECK
+  //%%%%%%%%%%%%/
   // If any errors were given, reload page:
   if (count($_SESSION["comment_errors"]) > 0) {
     header("Location: dashboard.php");
-  } else {
-    // Form validated: 
-    // Send to database (strings already escaped):
-  }
+    die();
+  } 
+
+  //%%%%%%%%%%%%/
+  // VALIDATED
+  //%%%%%%%%%%%%/
+  // Comment validated: 
+  // Send to database (strings already escaped):
+  $query = "INSERT INTO comments (comment, user_id, message_id, created_at, updated_at) VALUES ('${_POST['comment']}', '${_SESSION['user_id']}', '${_POST['message_id']}', NOW(), NOW())";
+  // Run query:
+  run_mysql_query($query);
+  // Return to Dashboard:
+  header("Location: dashboard.php");
+  die();
+
 }
 
 // ****************** //
