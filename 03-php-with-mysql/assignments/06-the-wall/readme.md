@@ -1,4 +1,4 @@
 ## To Do:
-+ Change Query for User on Dashboard to get all Messages, and all Comments belonging to each Message.
-+ Add Message Feature (with validations)
-+ Add Comment Feature (with validations)
++ Get all comments and filter based on message_id
++ Sort comments and messages by newester first
+(30-50 min left)
