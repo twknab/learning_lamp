@@ -53,7 +53,7 @@ require("process-dashboard.php")
         if ($comment['message_id'] === $post['message_id']) {
       ?>
         <div>
-          <strong><?=$post['first_name'] . " " . $comment['last_name']?> - <?=date_format(date_create($comment["created_at"]), 'F jS Y')?></strong>
+          <strong><?=$comment['first_name'] . " " . $comment['last_name']?> - <?=date_format(date_create($comment["created_at"]), 'F jS Y')?></strong>
           <p><?=$comment['comment']?></p>
         </div>
       <?php
