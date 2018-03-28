@@ -20,10 +20,39 @@ class Main extends CI_Controller {
 	 */
 	public function index()
 	{
-    $data = array();
+		$this->load->view('main');
+	}
+	public function survey()
+	{
+    // If counter, increment it:
+    if ($this->session->userdata('counter')) 
+    {
+      $counter = $this->session->userdata('counter') + 1;
+      $this->session->set_userdata('counter', $counter);
+    } 
+    
+    else  // otherwise set counter to 1
+    {
+      $this->session->set_userdata('counter', 1);
+    }
 
-    $data["time"] = date('M jS, Y g:i:s A ');
+    // Get survey post data with xss filtering
+    $survey = $this->input->post(NULL, TRUE);
+    // Set survey as session data:
+    $this->session->set_userdata('survey', $survey);
 
-		$this->load->view('main', $data);
+    // do some validations??
+
+    // redirect to result
+		redirect('/main/result');
+	}
+	public function result()
+	{
+    // Get survey session data:
+    $data["survey"] = $this->session->userdata('survey');
+    // Get count session data:
+    $data["count"] = $this->session->userdata('counter');
+    // Send view with data:
+    $this->load->view('result', $data);
 	}
 }
