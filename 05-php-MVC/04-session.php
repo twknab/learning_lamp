@@ -22,11 +22,11 @@ A session, as far as CodeIgniter is concerned, is simply an array containing the
 
 array
 (
-  'session_id'    => random hash,
+  'session_id'    => null, // andom hash,
   'ip_address'    => 'string - user IP address',
   'user_agent'    => 'string - user agent data',
-  'last_activity' => timestamp
-)
+  'last_activity' => null, // timestamp
+);
 
 /*
 
@@ -148,7 +148,7 @@ $this->session->keep_flashdata('item');
 We have seen some of our students try to modify the session data by doing something like below:
 */
 
-$this->session->set_userdata('message') = "new message";
+// $this->session->set_userdata('message') = "new message";
 
 // or
 
