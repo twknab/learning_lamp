@@ -4,10 +4,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Main extends CI_Controller {
 	public function index()
 	{
+    /*
+    Loads index and retrieves current log and gold.
+    */
+
     // if user's first time create activity log and set gold to 0:
     if (!$this->session->userdata("activity"))
     {
-      $this->session->set_userdata("activity", "No activity yet. Get some gold! " . $this->__getDate());
+      $this->session->set_userdata("activity", "👋 No activity yet. Get some gold! " . $this->__getDate());
       $this->session->set_userdata("gold", 0);
     }
     
@@ -20,6 +24,10 @@ class Main extends CI_Controller {
   }
 	public function process_money()
 	{
+    /*
+    Processes monies based on place.
+    */
+
     // Get post data using XSS filtering:
     $post_form = $this->input->post(NULL, TRUE);
 
@@ -69,17 +77,36 @@ class Main extends CI_Controller {
           redirect('/');
       }
     }
+  
   }
+  // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+  // $$$$$$$$   HELPER METHODS   $$$$$$$$
+  // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
   private function __get_gold($min, $max)
   {
+    /*
+    Gets gold based on a min and max
+    */
     return rand($min, $max);
   }
+
   private function __getDate()
   {
+    /*
+    Returns formatted current date
+    */
     return date("(Y/m/d g:i:s a)");
   }
+
   private function __update_gold($name, $gold, $subtract=FALSE)
   {
+    /*
+    Updates gold value.
+
+    Note: if $subtract = TRUE, the value will be SUBTRACTED.
+    By default, subtract is FALSE (things will be ADDED by default)
+    */
 
     if (!$subtract) 
     {
@@ -114,9 +141,15 @@ class Main extends CI_Controller {
 
     return $this;
   }
+
   private function __update_log($name, $gold, $subtract=FALSE)
   {
+    /*
+    Updates log.
 
+    Note: if $subtract = TRUE, the LOST message will be appended to log.
+    By default, subtract is FALSE (EARNED message will be appended by default)
+    */
     if (!$subtract)
     {
       // Update log earning new value. Note: we concateonate and the existing log to the END of our new string, so that our newest entry remains on TOP (most recent) of the activity feed:
