@@ -32,9 +32,9 @@
     <?php
       }
     ?>
-    <form action="./create" method="POST">
+      <?php echo form_open('products/create') ?>
       <p><label for="name">Name:</label>
-        <input type="text" name="name" id="name">
+        <input type="text" name="name" id="name" value="<?php echo set_value('name'); ?>">
       </p>
       <p><label for="description">Description:</label></p>
       <textarea name="description" id="description" cols="30" rows="10"></textarea>

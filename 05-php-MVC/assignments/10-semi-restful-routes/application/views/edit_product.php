@@ -33,8 +33,10 @@ if (isset($product)) {
     <?php
       }
     ?>
-    <form action="../update/<?=$product["id"]?>" method="POST">
-      <input type="hidden" name="product_id" value="<?=$product["id"]?>">
+    <?php 
+      $hidden = array("product_id" => $product["id"]);
+      echo form_open('products/update/'.$product["id"], '', $hidden) 
+    ?>
       <p><label for="name">Name</label>
         <input type="text" name="name" id="name" value="<?=$product["name"]?>">
       </p>

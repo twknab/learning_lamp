@@ -46,7 +46,7 @@
         <td><?=$product["name"]?></td>
         <td><?=$product["description"]?></td>
         <td>$<?=$product["price"]?></td>
-        <td><a href="products/show/<?=$product["id"]?>">Show</a> | <a href="products/edit/<?=$product["id"]?>">Edit</a> | <form action="products/destroy/<?=$product["id"]?>" method="POST"><input type="submit" value="Remove"></form></td>
+        <td><a href="products/show/<?=$product["id"]?>">Show</a> | <a href="products/edit/<?=$product["id"]?>">Edit</a> | <?php echo form_open('products/destroy/'.$product["id"]) ?> <input type="submit" value="Remove"></form></td>
       </tr>
       <?php 
         }
