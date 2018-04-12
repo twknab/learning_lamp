@@ -8,66 +8,55 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Courses</title>
+  <title>LAMP Products</title>
   <style>
     body {
-      font-family: "arial";
+     font-family: arial, courier; 
     }
-   .err {
-     padding: 10px;
-     margin: 15px auto;
-     width: 400px;
-     background-color: orange;
-     border: 2px solid orangered;
-   }
-   table {
-     width: 100%;
-     text-align: center;
-   }
-   input[type="submit"] {
-     padding: 10px;
-   }
+    tr {
+      text-align: center;
+    }
+    table {
+      padding: 10px;
+      background-color: aliceblue;
+    }
+    tr form {
+      display: inline;
+    }
   </style>
 </head>
 <body>
   <fieldset>
-    <legend>
-      <h1>Add a New Course</h1>
-    </legend>
-    <form action="/add_course" method="POST">
-      <?php 
-
-          if (isset($errors)) {
-            echo "<div class='err'>${errors}</div>";
-          }
-
-      ?>
-      <p>Name: <input type="text" name="name" id="name"></p>
-      <p>Description:</p>
-      </p><textarea name="description" id="description" cols="30" rows="20"></textarea></p>
-      <input type="submit" value="Add">
-    </form>
-  </fieldset>
-  <?php if ($courses) { ?>
-  <fieldset>
-    <legend><h2>Courses</h2></legend>
-    <table>
+    <legend><h1>Products</h1></legend>
+    <table style="width:100%">
       <tr>
-        <th>Course Name</th>
+        <th>Name</th>
         <th>Description</th>
-        <th>Date Added</th>
+        <th>Price</th>
         <th>Actions</th>
       </tr>
-      <?php foreach ($courses as $course) { ?>
-        <tr>
-          <td><?=$course["name"]?></td>
-          <td><?=$course["description"]?></td>
-          <td><?=date_format(new DateTime($course['created_at']), 'M dS Y h:iA')?></td>
-          <td><a href="/confirm_delete/<?=$course["id"]?>">Remove</a></td>
-        </tr>
-      <?php } ?>
-    </table>
+      <?php 
+
+        if (isset($products))
+        {
+          foreach ($products as $product) 
+          {
+      ?> 
+      <tr>
+        <td><?=$product["name"]?></td>
+        <td><?=$product["description"]?></td>
+        <td>$<?=$product["price"]?></td>
+        <td><a href="products/show/<?=$product["id"]?>">Show</a> | <a href="products/edit/<?=$product["id"]?>">Edit</a> | <form action="products/destroy/<?=$product["id"]?>" method="POST"><input type="submit" value="Remove"></form></td>
+      </tr>
+      <?php 
+        }
+       }  
+      ?>
+    </table> 
   </fieldset>
-  <?php } ?>
+  <fieldset>
+    <legend><h1>Add Product</h1></legend>
+    <a href="products/new">Add a new product</a>
+  </fieldset>
 </body>
 </html>
