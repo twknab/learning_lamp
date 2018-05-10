@@ -1,3 +1,3 @@
 # To Do:
 
-+ Make sure user cannot register if existing email found.
++ Let user delete their own account. (a few things groomed for this feature)
