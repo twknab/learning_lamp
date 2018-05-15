@@ -13,11 +13,6 @@
     body {
      font-family: arial, courier; 
     }
-    /* input {
-      display: block;
-      margin: 0 0 10px 0;
-      padding: 5px;
-    } */
     tr {
       text-align: center;
     }
@@ -65,11 +60,21 @@
               $hidden = array('inventory' => $product["inventory"],'product_id' => $product["id"]);
               echo form_open('order/buy', '', $hidden); 
             ?>
-            <input type="number" name="quantity" id="quantity" min="0" max="<?=$product["inventory"]?>">
+            <input type="number" name="quantity" id="quantity" min="0" max="<?=$product["inventory"]?>" <?php 
+              if ($product["inventory"] == 0)
+              { ?> 
+                disabled
+            <?php  } 
+            ?>>
             <p class="micro"><?=$product["inventory"]?> in stock.</p>
           </td>
           <td>
-            <input type="submit" value="Buy">
+            <input type="submit" value="Buy" <?php 
+              if ($product["inventory"] == 0)
+              { ?> 
+                disabled
+            <?php  } 
+            ?>>
             </form>
           </td>
         </tr>

@@ -30,7 +30,7 @@ class Product_model extends CI_Model
   {
     // Validate inventory change and quantity:
     $this->load->library('form_validation');
-    $this->form_validation->set_message('less_than', 'Quantity must be at least 1 and cannot exceed inventory.');
+    $this->form_validation->set_message('less_than', '<p>Quantity must be at least 1 and cannot exceed inventory.</p>');
     if ($this->form_validation->run('buy') === FALSE)
     {
       // Ship back errors and false:

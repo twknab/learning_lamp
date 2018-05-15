@@ -5,12 +5,12 @@ $config = array(
     array(
       'field' => 'new_inventory',
       'label' => 'Inventory',
-      'rules' => 'trim|less_than[0]',
+      'rules' => 'greater_than[0]',
     ),
     array(
       'field' => 'quantity',
       'label' => 'Quantity',
-      'rules' => 'trim|less_than[1]',
+      'rules' => 'greater_than[1]',
     ),
   ),
 );
