@@ -16,6 +16,9 @@
     tr {
       text-align: center;
     }
+    td {
+      padding: 10px;
+    }
     table {
       padding: 15px;
       width: 100%;
@@ -32,6 +35,10 @@
       font-size: 10px;
       color: blue;
     }
+    .errors {
+      /* padding: 15px; */
+      color: #C00;
+    }
   </style>
 </head>
 <body>
@@ -39,7 +46,12 @@
   <?php 
     if (isset($errors))
     {
-      var_dump($errors);
+  ?>
+  <fieldset class="errors">
+    <legend>Alert!</legend>
+    <p><?=$errors?></p>
+  </fieldset>
+  <?php
     }
   ?>
   <fieldset>
@@ -66,7 +78,7 @@
                 disabled
             <?php  } 
             ?>>
-            <p class="micro"><?=$product["inventory"]?> in stock.</p>
+            <span class="micro"><?=$product["inventory"]?> in stock.</span>
           </td>
           <td>
             <input type="submit" value="Buy" <?php 

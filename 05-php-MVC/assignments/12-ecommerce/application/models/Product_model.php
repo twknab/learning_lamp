@@ -26,11 +26,22 @@ class Product_model extends CI_Model
     $query = "SELECT * FROM products ORDER BY created_at DESC";
     return $this->db->query($query)->result_array();
   }
-  public function reduce_inventory($quantity, $new_inventory, $product_id)
+  public function reduce_inventory($quantity, $product_id)
   {
-    // Validate inventory change and quantity:
+    $query = "SELECT * FROM products WHERE id = ?";
+    $values = array($product_id);
+    $current_inventory = $this->db->query($query, $values)->row();
+    if ($current_inventory === FALSE)
+    {
+      return array(FALSE, '<p>Error getting product inventory. Please contact administrator.</p>');
+    }
+    $new_inventory = intval($current_inventory->inventory) - intval($quantity);
+    if ($new_inventory < 0)
+    {
+      return array(FALSE, '<p>Order quantity exceeds current product inventory. Please reduce your order quantity.</p>');
+    }
+    // Validate quantity:
     $this->load->library('form_validation');
-    $this->form_validation->set_message('less_than', '<p>Quantity must be at least 1 and cannot exceed inventory.</p>');
     if ($this->form_validation->run('buy') === FALSE)
     {
       // Ship back errors and false:
@@ -42,5 +53,17 @@ class Product_model extends CI_Model
       $values = array($new_inventory, $product_id);
       return $this->db->query($query, $values);
     }
+  }
+  public function increase_inventory($product_id, $quantity)
+  {
+    // Get current inventory:
+    $current_inventory = $this->db->query("SELECT inventory FROM products WHERE id = ?", array($product_id))->row();
+    $current_inventory = intval($current_inventory->inventory);
+
+    // Update inventory for product:
+    $updated_inventory = $current_inventory + intval($quantity);
+    $query = "UPDATE products SET inventory = ? WHERE id = ?";
+    $values = array($updated_inventory, $product_id);
+    return $this->db->query($query, $values);
   }
 }
