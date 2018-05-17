@@ -183,7 +183,6 @@ After you have deployed your blank CodeIgniter application, go ahead and create 
     ErrorDocument 404 /index.php
 </IfModule>
 ```
-`
 
 After we have included this .htaccess file, there are three things that we need to do to get .htaccess to work on our website so that our routes look pretty. First, navigate to your /application/config/config.php of your CodeIgniter project and make sure that the $config['index_page'] is equal to "":
 
