@@ -7,11 +7,12 @@ class User extends CI_Controller
   {
     // Create array to hold data:
     $data = [];
-    // Get any flash message errors
+    // Get any flash message errors for registration:
     if ($this->session->flashdata('errors_registration')) 
     {
       $data["errors_registration"] = $this->session->flashdata('errors_registration');
     }
+    // Get any flash message errors for login:
     if ($this->session->flashdata('errors_login')) 
     {
       $data["errors_login"] = $this->session->flashdata('errors_login');
@@ -26,7 +27,6 @@ class User extends CI_Controller
     // Run XSS filter (CSRF protection is automatically added in form helper)
     $user = $this->security->xss_clean($user);
     // Ship to model for validation: 
-    $this->__load_model('User_model');
     $found_user = $this->User_model->login_user($user);
     // If errors are returned, save to flash session, and send back to home:
     if ($found_user[0] === FALSE) {
@@ -37,7 +37,7 @@ class User extends CI_Controller
       // Store user_id to session,
       $this->session->set_userdata('user_id', $found_user[1]['id']);
       // Redirect to dashboard:
-      redirect('/dashboard');
+      redirect('/books');
     }
 
 
@@ -49,7 +49,6 @@ class User extends CI_Controller
     // Run XSS filter (CSRF protection is automatically added in form helper)
     $user = $this->security->xss_clean($user);
     // Ship to model for validation:
-    $this->__load_model('User_model');
     $new_user = $this->User_model->register_user($user);
 
     // If errors are returned, save to flash session, and send back to home:
@@ -63,7 +62,7 @@ class User extends CI_Controller
       // Store user_id to session, 
       $this->session->set_userdata('user_id', $new_user[1]);
       // Redirect to dashboard:
-      redirect('/dashboard');
+      redirect('/books');
     }
   }
   public function logoff()
@@ -88,9 +87,9 @@ class User extends CI_Controller
     // Check for session:
     if ($this->session->userdata('user_id') !== NULL)
     {
-      // Get user by session id:
-      $this->__load_model('User_model');
+      // Get user info via session id:
       $data['user'] = $this->User_model->get_user($this->session->userdata('user_id'));
+      
       // Load dashboard with user data:
       $this->load->view("dashboard", $data);
     }
@@ -98,8 +97,5 @@ class User extends CI_Controller
     {
       redirect('/');
     }
-  }
-  private function __load_model($Model_name) {
-    return $this->load->model($Model_name);
   }
 }

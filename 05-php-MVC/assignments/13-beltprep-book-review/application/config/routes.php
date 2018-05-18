@@ -56,6 +56,6 @@ $route['books'] = 'book/dashboard';
 $route['books/(:any)'] = 'book/view/$1';
 $route['review/add'] = 'review/add';
 $route['review/delete/(:any)'] = 'review/delete/$1';
-$route['logout'] = 'user/logout';
+$route['logout'] = 'user/logoff';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

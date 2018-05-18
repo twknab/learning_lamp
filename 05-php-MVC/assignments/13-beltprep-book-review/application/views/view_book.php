@@ -12,19 +12,19 @@
   </style>
 </head>
 <body>
- <a href="/">Home</a>
- <a href="logout">Logout</a>
+ <p><a href="/">Home</a></p>
+ <p><a href="logout">Logout</a></p>
  <h1>{{Divergent}}</h1>
  <h3>Author: Veronica Roth</h3>
  <fieldset>
-    <legend>Reviews:</legend>
+    <legend><h2>Reviews:</h2></legend>
     <p>Rating: [X] [X] [X] [] []</p>
     <a href="/users/1">Shirley</a> says: <em>My daughter loves reading this. I don't know why.</em>
     <p><em>Posted on November 21, 2014</em></p>
     <a href="/review/delete/1">Delete this Review</a>
  </fieldset>
  <fieldset>
-   <legend>Add Review:</legend>
+   <legend><h2>Add Review:</h2></legend>
    <?php 
     $hidden = array('book_id' => 1,'author_id' => 2);
     echo form_open('review/new', '', $hidden); 

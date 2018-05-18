@@ -12,10 +12,10 @@
   </style>
 </head>
 <body>
- <a href="/">Home</a>
- <a href="logout">Logout</a>
+ <p><a href="/">Home</a></p>
+ <p><a href="logout">Logout</a></p>
  <fieldset>
-    <legend>Add a New Book Title and a Review:</legend>
+    <legend><h2>Add a New Book Title and a Review:</h2></legend>
   <?php if (isset($errors_review)) { ?>
     <div class="err"><?=$errors_review?></div>
   <?php } ?>

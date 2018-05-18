@@ -9,6 +9,14 @@
     body {
      font-family: arial, courier; 
     }
+    .err {
+      padding: 15px;
+      border: 1px solid silver;
+      background: lightgrey;
+      text-align: center;
+      font-style: italic;
+      margin: 15px;
+    }
   </style>
 </head>
 <body>

@@ -11,21 +11,19 @@ class User_model extends CI_Model
   {
     $result = $this->db->query("DELETE FROM users WHERE id = ?", array($user_id));
     if ($result) {
-      return TRUE;
+      return TRUE; // USER DELETED
     } else {
-      return FALSE;
+      return FALSE; // FAILS
     }
   }
   public function register_user($user)
   {
-    // LOAD VALIDATION LIBRARY:
-    $this->load->library("form_validation");
+    // Validate registration:
     $this->form_validation->set_message('is_unique', 'This %s is already registered.');
     $this->form_validation->set_message('matches', 'The %s must match the %s.');
-    // IF FAILS
-    if ($this->form_validation->run("register") === FALSE) 
+    if ($this->form_validation->run("register") === FALSE) // FAILS
     {
-      // Store errors and ship back to controller:
+      // Ship errors back to controller:
       return array(FALSE, validation_errors());
     } 
     else // SUCCESS
@@ -35,19 +33,17 @@ class User_model extends CI_Model
       $encrypted_password = md5($user['password'] . "" . $salt);
 
       // Write to database:
-      $query = "INSERT INTO users (first_name, last_name, email, password, salt, created_at, updated_at) VALUES (?,?,?,?,?,?,?)";
-      $values = array($user['first_name'], $user['last_name'], $user['email'], $encrypted_password, $salt, date('Y-m-d H:i:s'), date('Y-m-d H:i:s'));
+      $query = "INSERT INTO users (name, alias, email, password, salt, created_at, updated_at) VALUES (?,?,?,?,?,?,?)";
+      $values = array($user['name'], $user['alias'], $user['email'], $encrypted_password, $salt, date('Y-m-d H:i:s'), date('Y-m-d H:i:s'));
       return array($this->db->query($query, $values), $this->db->insert_id()); // note: insert_id retrieves last ID
     }
   }
   public function login_user($user)
   {
-    // LOAD VALIDATION LIBRARY:
-    $this->load->library("form_validation");
-    // IF FAILS
-    if ($this->form_validation->run("login") === FALSE) 
+    // Validate login:
+    if ($this->form_validation->run("login") === FALSE) // FAILS
     {
-      // Store errors and ship back to controller:
+      // Ship errors back to controller:
       return array(FALSE, validation_errors());
     } 
     else // SUCCESS

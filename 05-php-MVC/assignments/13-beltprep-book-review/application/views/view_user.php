@@ -12,12 +12,12 @@
   </style>
 </head>
 <body>
- <a href="/">Home</a>
- <a href="/books/add">Add Book and Review</a>
- <a href="logout">Logout</a>
+ <p><a href="/">Home</a></p>
+ <p><a href="/books/add">Add Book and Review</a></p>
+ <p><a href="logout">Logout</a></p>
  <h1>User Alias: {{Jessie}}</h1>
  <fieldset>
-    <legend>Details:</legend>
+    <legend><h2>Details:</h2></legend>
     <ul>
       <li>Name: Jessie Jaime</li>
       <li>Email: jessiej@yahoo.com</li>

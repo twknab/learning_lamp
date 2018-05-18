@@ -10,23 +10,32 @@
      font-family: arial, courier; 
     }
     #more-reviews {
+      height: 200px;
       overflow-y: scroll; 
+    }
+    .date {
+      font-size: 12px;
+      font-style: italic;
     }
   </style>
 </head>
 <body>
- <h1>Welcome, {{Jessie}}!</h1>
- <a href="review/add">Add Book and Review</a>
- <a href="logout">Logout</a>
+ <h1>Welcome, <?=$user['alias']?>!</h1>
+ <p>
+  <a href="review/add">Add Book and Review</a>
+  <a href="logout">Logout</a>
+ </p>
  <fieldset>
-    <legend>Recent Book Reviews</legend>
+    <legend><h2>Recent Book Reviews</h2></legend>
     <a href="/books/1">The Greatest Salesman in The World</a>
-    <p>Rating: [X] [X] [X] [X] [X]</p>
-    <a href="/users/1">Jerry</a> says: very inspiring and lots of wisdom.
-    <p>Posted on November 25, 2014</p> 
+    <blockquote>
+      <p>Rating: [X] [X] [X] [X] [X]</p>
+      <a href="/users/1">Jerry</a> says: very inspiring and lots of wisdom.
+      <p class="date">Posted on November 25, 2014</p> 
+    </blockquote>
  </fieldset>
  <fieldset>
-    <legend>Other Books with Reviews</legend>
+    <legend><h2>Other Books with Reviews</h2></legend>
     <div id="more-reviews">
       <a href="/books/2">Harry Potter: The Sorcerer's Stone</a>
     </div>
