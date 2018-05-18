@@ -12,6 +12,9 @@ class Book extends CI_Controller
     {
       // Get user info via session id:
       $data['user'] = $this->User_model->get_user($this->session->userdata('user_id'));
+
+      // Get most recent reviews:
+      $data['reviews'] = $this->Review_model->get_recent_reviews();
       
       // Load dashboard with user data:
       $this->load->view("dashboard", $data);

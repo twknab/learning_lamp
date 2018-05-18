@@ -9,31 +9,57 @@
     body {
      font-family: arial, courier; 
     }
+    .err {
+      padding: 15px;
+      border: 1px solid silver;
+      background: lightgrey;
+      text-align: center;
+      font-style: italic;
+      margin: 15px;
+    }
   </style>
 </head>
 <body>
- <p><a href="/">Home</a></p>
+ <p><a href="/books">Home</a></p>
  <p><a href="logout">Logout</a></p>
  <fieldset>
     <legend><h2>Add a New Book Title and a Review:</h2></legend>
   <?php if (isset($errors_review)) { ?>
     <div class="err"><?=$errors_review?></div>
   <?php } ?>
-  <?php echo form_open('review/new'); ?>
-  <input type="text" name="title" id="title" placeholder="Book Title">
-  <select name="existing_author" id="existing_author">
-    <option value="" selected>Choose existing Author...</option>
-    <option value="{{1}}">Stephen King</option>
-  </select>
-  <textarea name="description" id="description" cols="30" rows="20" placeholder="Review"></textarea>
-  <select name="rating" id="rating">
-    <option value="">Choose a rating...</option>
-    <option value="5">5</option>
-    <option value="4">4</option>
-    <option value="3">3</option>
-    <option value="2">2</option>
-    <option value="1">1</option>
-  </select>
+  <?php 
+    $hidden = array('user_id' => $user['id']);
+    echo form_open('review/new', '', $hidden); 
+  ?>
+  <p>
+    <input type="text" name="title" id="title" placeholder="Book Title">
+  </p>
+  <p>
+    <?php 
+    ?>
+    <select name="existing_author" id="existing_author">
+      <option value="">Choose an Existing Author...</option>
+    <?php foreach ($authors as $author) { ?>
+        <option value="<?=$author["id"]?>">
+          <?=$author["name"]?>
+        </option>
+      <?php } ?>
+    </select>
+  </p>
+  <p>
+    <input type="text" name="new_author" id="new_author" placeholder="Or add a New Author...">
+  </p>
+  <textarea name="description" id="description" cols="30" rows="20" placeholder="Write your Book Review here..."></textarea>
+  <p>
+    <select name="rating" id="rating">
+      <option value="">Choose a Rating...</option>
+      <option value="5">5</option>
+      <option value="4">4</option>
+      <option value="3">3</option>
+      <option value="2">2</option>
+      <option value="1">1</option>
+    </select>
+  </p>
   <input type="submit" value="Add Book & Review">
 </form>
  </fieldset>

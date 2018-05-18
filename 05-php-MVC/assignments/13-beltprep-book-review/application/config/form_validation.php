@@ -40,4 +40,31 @@ $config = array(
       'rules' => 'trim|required|min_length[5]',
     ),
   ),
+  'review' => array (
+    array(
+      'field' => 'title',
+      'label' => 'Title',
+      'rules' => 'trim|required|min_length[2]',
+    ),
+    array(
+      'field' => 'new_author',
+      'label' => 'New author',
+      'rules' => 'trim|min_length[2]|is_unique[authors.name]',
+    ),
+    array(
+      'field' => 'description',
+      'label' => 'Description',
+      'rules' => 'trim|required|min_length[2]',
+    ),
+    array(
+      'field' => 'rating',
+      'label' => 'Rating',
+      'rules' => 'required',
+    ),
+    array(
+      'field' => 'user_id',
+      'label' => 'User ID',
+      'rules' => 'required',
+    ),
+  ),
 );

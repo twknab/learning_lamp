@@ -22,7 +22,7 @@
 <body>
  <h1>Welcome, <?=$user['alias']?>!</h1>
  <p>
-  <a href="review/add">Add Book and Review</a>
+  <a href="books/add">Add Book and Review</a>
   <a href="logout">Logout</a>
  </p>
  <fieldset>

@@ -12,7 +12,7 @@
   </style>
 </head>
 <body>
- <p><a href="/">Home</a></p>
+ <p><a href="/books">Home</a></p>
  <p><a href="logout">Logout</a></p>
  <h1>{{Divergent}}</h1>
  <h3>Author: Veronica Roth</h3>

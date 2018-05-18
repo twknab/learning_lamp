@@ -12,7 +12,7 @@
   </style>
 </head>
 <body>
- <p><a href="/">Home</a></p>
+ <p><a href="/books">Home</a></p>
  <p><a href="/books/add">Add Book and Review</a></p>
  <p><a href="logout">Logout</a></p>
  <h1>User Alias: {{Jessie}}</h1>
