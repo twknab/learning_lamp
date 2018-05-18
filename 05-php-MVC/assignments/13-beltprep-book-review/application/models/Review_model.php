@@ -55,6 +55,36 @@ class Review_model extends CI_Model
   public function get_recent_reviews()
   {
     // LIMIT TO 3 MOST RECENT
-    $query = "SELECT reviews.description AS description, users.name AS name, books.title AS title, reviews.created_at AS created_at FROM reviews RIGHT JOIN books ON reviews.book_id = books.id LEFT JOIN users ON reviews.user_id = users.id";
+    $query = "SELECT reviews.id AS review_id, reviews.description AS description, users.name AS name, users.id AS user_id, books.title AS title, books.id AS book_id, reviews.rating AS rating, reviews.created_at AS created_at FROM reviews RIGHT JOIN books ON reviews.book_id = books.id LEFT JOIN users ON reviews.user_id = users.id GROUP BY title ORDER BY reviews.created_at DESC LIMIT 3";
+
+    return $this->db->query($query)->result_array();
+  }
+  public function get_all_but_recent_reviews()
+  {
+    $ids = array();
+    $top3 = $this->get_recent_reviews();
+    foreach ($top3 as $review) {
+      $ids[] = $review['book_id'];
+    }
+
+    $query = "SELECT * FROM reviews RIGHT JOIN books ON reviews.book_id = books.id LEFT JOIN users ON reviews.user_id = users.id WHERE books.id NOT IN ? GROUP BY books.title ORDER BY reviews.created_at DESC";
+
+    $val = array($ids); // note array has to be nested to iterate through IDs
+
+    return $this->db->query($query, $val)->result_array();
+  }
+  public function get_book_reviews($book_id)
+  {
+    $query = "SELECT users.id AS user_id, users.name, users.alias, reviews.id, reviews.description, reviews.rating, reviews.created_at, books.id AS book_id FROM reviews RIGHT JOIN books ON reviews.book_id = books.id LEFT JOIN users ON reviews.user_id = users.id WHERE books.id = ? ORDER BY reviews.created_at DESC";
+    $val = array($book_id);
+
+    return $this->db->query($query, $val)->result_array();
+  }
+  public function destroy($review_id)
+  {
+    $query = "DELETE FROM reviews WHERE id = ?";
+    $val = array($review_id);
+
+    return $this->db->query($query, $val);
   }
 }

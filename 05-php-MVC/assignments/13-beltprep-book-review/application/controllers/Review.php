@@ -63,4 +63,29 @@ class Review extends CI_Controller
       redirect('/');
     }
   }
+  public function delete($review_id, $book_id)
+  {
+    $data = [];
+
+    // Check for session:
+    if ($this->session->userdata('user_id') !== NULL)
+    {
+      $destroy = $this->Review_model->destroy($review_id);
+
+      // If errors are returned, save to flash session, and send back to home:
+      if ($destroy === FALSE)
+      {
+        echo "Error deleting review!";
+      }
+      else // SUCCESS
+      {
+        // Redirect to view book page:
+        redirect('/books/' . $book_id);
+      }
+    }
+    else 
+    {
+      redirect('/');
+    }
+  }
 }

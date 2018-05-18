@@ -9,19 +9,43 @@
     body {
      font-family: arial, courier; 
     }
+    .date {
+      font-size: 12px;
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
  <p><a href="/books">Home</a></p>
  <p><a href="logout">Logout</a></p>
- <h1>{{Divergent}}</h1>
- <h3>Author: Veronica Roth</h3>
+ <h1><?=$book->title?></h1>
+ <h3>Author: <?=$book->name?></h3>
  <fieldset>
     <legend><h2>Reviews:</h2></legend>
-    <p>Rating: [X] [X] [X] [] []</p>
-    <a href="/users/1">Shirley</a> says: <em>My daughter loves reading this. I don't know why.</em>
-    <p><em>Posted on November 21, 2014</em></p>
-    <a href="/review/delete/1">Delete this Review</a>
+    <?php var_dump($reviews) ?>
+    <?php foreach ($reviews as $review) { ?>
+      <p>Rating:
+        <?php 
+          for ($i = 0; $i < $review['rating']; $i++) { ?>
+            <img src="<?php echo base_url('assets/images/star-full.png'); ?>">
+          <?php } ?>
+          <?php 
+            $empty = 5-$review['rating'];
+            for ($j = 0; $j < $empty; $j++)
+            { 
+          ?>
+             <img src="<?php echo base_url('assets/images/star-empty.png'); ?>">
+          <?php } ?>
+      </p>
+      <blockquote>
+        <a href="/users/<?=$review['user_id']?>"><?=$review['alias']?></a> says: <em><?=$review['description']?></em>
+        <p class="date">Posted on <?=date_format(new DateTime($review['created_at']), 'M d, Y')?></p>
+        <?php if ($user['id'] == $review['user_id']) { ?> 
+          <a href="/review/delete/<?=$review['id']?>/<?=$review['book_id']?>">Delete this Review</a>
+        <?php } ?>
+      </blockquote>
+    <?php } ?>
+
  </fieldset>
  <fieldset>
    <legend><h2>Add Review:</h2></legend>

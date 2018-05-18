@@ -31,4 +31,8 @@ class Book_model extends CI_Model
   {
     return $book = $this->db->query("INSERT INTO books (author_id, title, created_at, updated_at) VALUES (?, ?, ?, ?)", array($author_id, $title, date('Y-m-d H:i:s'), date('Y-m-d H:i:s')));
   }
+  public function get_book($book_id)
+  {
+    return $this->db->query("SELECT * FROM books RIGHT JOIN authors ON books.author_id = authors.id WHERE books.id = ?", array($book_id))->row();
+  }
 }

@@ -2,6 +2,12 @@
 
 To Do:
 
-- I don't think that my book title is properly being validated. I believe the query is not correct. Need to finish that off. Was not necessary to validate this form but seemed to make a lot of sense and be good practice...
+- Fix "Other Reviews" on Dashboard. The query is not right (or not returning all necessary properties.)
 
-+ Finish up form validations and assignment and deployment in 2-3 hours max.
+- I believe the DELETE function is now working (but we'll confirm after I fix the first thing)
+
+- Lastly, user profile page must be built...after that, all features finished...
+
+- Refactor, clean up code & deploy (1-2 hours)
+
+Spend no more than 2 hours.

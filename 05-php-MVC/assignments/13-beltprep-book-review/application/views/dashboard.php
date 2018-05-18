@@ -27,17 +27,39 @@
  </p>
  <fieldset>
     <legend><h2>Recent Book Reviews</h2></legend>
-    <a href="/books/1">The Greatest Salesman in The World</a>
-    <blockquote>
-      <p>Rating: [X] [X] [X] [X] [X]</p>
-      <a href="/users/1">Jerry</a> says: very inspiring and lots of wisdom.
-      <p class="date">Posted on November 25, 2014</p> 
-    </blockquote>
+    <?php foreach ($reviews as $review) { ?>
+      <a href="/books/<?=$review['book_id']?>"><?=$review['title']?></a>
+      <blockquote>
+        <p>Rating: 
+          <?php 
+            for ($i = 0; $i < $review['rating']; $i++) { ?>
+              <img src="<?php echo base_url('assets/images/star-full.png'); ?>">
+          <?php } ?>
+          <?php 
+            $empty = 5-$review['rating'];
+            for ($j = 0; $j < $empty; $j++)
+            { 
+          ?>
+              <img src="<?php echo base_url('assets/images/star-empty.png'); ?>">
+          <?php  
+            }
+          ?>
+        </p>
+        <a href="/users/<?=$review['user_id']?>"><?=$review['name']?></a> says: <?=$review['description']?>.
+        <p class="date">Posted on <?=date_format(new DateTime($review['created_at']), 'M d, Y')?></p> 
+      </blockquote>
+    <?php } ?>
  </fieldset>
  <fieldset>
     <legend><h2>Other Books with Reviews</h2></legend>
+    <?php 
+    ?>
     <div id="more-reviews">
-      <a href="/books/2">Harry Potter: The Sorcerer's Stone</a>
+      <?php foreach ($other_reviews as $review) { 
+        var_dump($review);
+        ?>
+        <p><a href="/books/<?=$review['book_id']?>"><?=$review['title']?></a></p>
+      <?php } ?>
     </div>
  </fieldset>
 </body>
