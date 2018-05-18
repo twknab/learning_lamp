@@ -1,11 +1,43 @@
 <?php
 
 $config = array(
-  'buy' => array (
+  'register' => array (
     array(
-      'field' => 'quantity',
-      'label' => 'Quantity',
-      'rules' => 'greater_than[0]',
+      'field' => 'name',
+      'label' => 'Name',
+      'rules' => 'trim|required|min_length[2]',
+    ),
+    array(
+      'field' => 'alias',
+      'label' => 'Alias',
+      'rules' => 'trim|required|min_length[2]',
+    ),
+    array(
+      'field' => 'email',
+      'label' => 'Email',
+      'rules' => 'trim|required|min_length[5]|valid_email|is_unique[users.email]',
+    ),
+    array(
+      'field' => 'password',
+      'label' => 'Password',
+      'rules' => 'trim|required|min_length[5]|matches[password_confirm]',
+    ),
+    array(
+      'field' => 'password_confirm',
+      'label' => 'Password Confirmation',
+      'rules' => 'trim|required|min_length[8]',
+    ),
+  ),
+  'login' => array (
+    array(
+      'field' => 'email',
+      'label' => 'Email',
+      'rules' => 'trim|required|min_length[5]',
+    ),
+    array(
+      'field' => 'password',
+      'label' => 'Password',
+      'rules' => 'trim|required|min_length[5]',
     ),
   ),
 );

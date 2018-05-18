@@ -1,97 +1,43 @@
-<?php 
-
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>LAMP E-Commerce Store</title>
+  <title>Welcome to LAMP Book Reviewer</title>
   <style>
     body {
      font-family: arial, courier; 
     }
-    tr {
-      text-align: center;
-    }
-    td {
-      padding: 10px;
-    }
-    table {
-      padding: 15px;
-      width: 100%;
-      background-color: aliceblue;
-    }
-    tr form {
-      display: inline;
-    }
-    .cart {
-      text-align: right;
-      padding: 10px;
-    }
-    .micro {
-      font-size: 10px;
-      color: blue;
-    }
-    .errors {
-      /* padding: 15px; */
-      color: #C00;
-    }
   </style>
 </head>
 <body>
-  <h3 class="cart"><a href="/cart">Your Cart (<?=$order_count?>)</a></h3>
-  <?php 
-    if (isset($errors))
-    {
-  ?>
-  <fieldset class="errors">
-    <legend>Alert!</legend>
-    <p><?=$errors?></p>
-  </fieldset>
-  <?php
-    }
-  ?>
-  <fieldset>
-    <legend><h1>Products</h1></legend>
-    <table>
-      <tr>
-        <th>Description</th>
-        <th>Price</th>
-        <th>Quantity</th>
-        <th></th>
-      </tr>
-      <?php foreach ($products as $product) { ?>
-        <tr>
-          <td><?=$product["description"]?></td>
-          <td>$<?=number_format((float)$product["price"], 2, '.', ',')?></td>
-          <td>
-            <?php 
-              $hidden = array('inventory' => $product["inventory"],'product_id' => $product["id"]);
-              echo form_open('order/buy', '', $hidden); 
-            ?>
-            <input type="number" name="quantity" id="quantity" min="0" max="<?=$product["inventory"]?>" <?php 
-              if ($product["inventory"] == 0)
-              { ?> 
-                disabled
-            <?php  } 
-            ?>>
-            <span class="micro"><?=$product["inventory"]?> in stock.</span>
-          </td>
-          <td>
-            <input type="submit" value="Buy" <?php 
-              if ($product["inventory"] == 0)
-              { ?> 
-                disabled
-            <?php  } 
-            ?>>
-            </form>
-          </td>
-        </tr>
-       <?php } ?>
-</table>
-  </fieldset>
+ <h1>Welcome!</h1>
+ <fieldset>
+    <legend>Register</legend>
+      <?php if (isset($errors_registration)) { ?>
+        <div class="err"><?=$errors_registration?></div>
+      <?php } ?>
+      <?php echo form_open('user/register'); ?>
+      <!-- Note: You might like to use more form_helpers here, but for now because we're timed, let's keep moving with what we know -->
+      <input type="text" name="name" id="name" placeholder="Full Name">
+      <input type="text" name="alias" id="alias" placeholder="Alias">
+      <input type="email" name="email" id="email" placeholder="Email">
+      <input type="password" name="password" id="password" placeholder="Password">
+      <input type="password" name="password_confirm" id="password_confirm" placeholder="Confirm Password">
+      <input type="submit" value="Register">
+    </form>
+ </fieldset>
+ <fieldset>
+    <legend>Login</legend>
+      <?php if (isset($errors_login)) { ?>
+        <div class="err"><?=$errors_login?></div>
+      <?php } ?>
+      <?php echo form_open('user/login'); ?>
+      <input type="email" name="email" id="email" placeholder="email">
+      <input type="password" name="password" id="password">
+      <input type="submit" value="Login">
+    </form>
+ </fieldset>
 </body>
 </html>

@@ -80,10 +80,6 @@ class User extends CI_Controller
     {
       redirect('/');
     }
-
-      // If true, delete session data and go to home page.
-      // If false, redirect home.
-    echo "LOGGING OFF";
   }
   public function dashboard()
   {
