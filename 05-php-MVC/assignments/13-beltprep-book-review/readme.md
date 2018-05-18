@@ -10,4 +10,6 @@ To Do:
 
 - Refactor, clean up code & deploy (1-2 hours)
 
+- Don't forget about the form on the view book page to quickly add another review
+
 Spend no more than 2 hours.
