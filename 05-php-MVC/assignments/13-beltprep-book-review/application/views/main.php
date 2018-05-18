@@ -5,19 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Welcome to LAMP Book Reviewer</title>
-  <style>
-    body {
-     font-family: arial, courier; 
-    }
-    .err {
-      padding: 15px;
-      border: 1px solid silver;
-      background: lightgrey;
-      text-align: center;
-      font-style: italic;
-      margin: 15px;
-    }
-  </style>
+  <link rel="stylesheet" href="<?php echo base_url('assets/css/style.css'); ?>">
 </head>
 <body>
  <h1>Welcome!</h1>

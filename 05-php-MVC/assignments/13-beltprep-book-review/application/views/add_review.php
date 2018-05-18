@@ -5,23 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Add a Book and Review</title>
-  <style>
-    body {
-     font-family: arial, courier; 
-    }
-    .err {
-      padding: 15px;
-      border: 1px solid silver;
-      background: lightgrey;
-      text-align: center;
-      font-style: italic;
-      margin: 15px;
-    }
-  </style>
+  <link rel="stylesheet" href="<?php echo base_url('assets/css/style.css'); ?>">
 </head>
 <body>
  <p><a href="/books">Home</a></p>
- <p><a href="logout">Logout</a></p>
+ <p><a href="../logout">Logout</a></p>
  <fieldset>
     <legend><h2>Add a New Book Title and a Review:</h2></legend>
   <?php if (isset($errors_review)) { ?>

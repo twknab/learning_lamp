@@ -98,4 +98,28 @@ class User extends CI_Controller
       redirect('/');
     }
   }
+  public function view($id)
+  {
+    $data = [];
+
+    // Check for session:
+    if ($this->session->userdata('user_id') !== NULL)
+    {
+      // Get user by id:
+      $data['user'] = $this->User_model->get_user($id);
+      
+      // Get user reviews count:
+      $data['reviews_count'] = $this->Review_model->get_user_review_count($id);
+
+      // Get reviews for user:
+      $data['reviews'] = $this->Review_model->get_user_reviews($id);
+
+      // Load dashboard with user data:
+      $this->load->view("view_user", $data);
+    }
+    else 
+    {
+      redirect('/');
+    }
+  }
 }

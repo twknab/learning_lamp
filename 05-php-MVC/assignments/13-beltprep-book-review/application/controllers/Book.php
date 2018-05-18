@@ -34,6 +34,12 @@ class Book extends CI_Controller
     // Check for session:
     if ($this->session->userdata('user_id') !== NULL)
     {
+      // Get any flash messages:
+      if ($this->session->flashdata('errors_review')) 
+      {
+        $data["errors_review"] = $this->session->flashdata('errors_review');
+      }
+
       // Get user info via session id:
       $data['user'] = $this->User_model->get_user($this->session->userdata('user_id'));
 

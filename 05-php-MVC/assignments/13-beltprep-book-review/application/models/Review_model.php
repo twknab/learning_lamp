@@ -67,11 +67,19 @@ class Review_model extends CI_Model
       $ids[] = $review['book_id'];
     }
 
-    $query = "SELECT * FROM reviews RIGHT JOIN books ON reviews.book_id = books.id LEFT JOIN users ON reviews.user_id = users.id WHERE books.id NOT IN ? GROUP BY books.title ORDER BY reviews.created_at DESC";
+    if (count($ids) > 0)
+    {
+      $query = "SELECT books.title, books.id AS book_id FROM reviews RIGHT JOIN books ON reviews.book_id = books.id LEFT JOIN users ON reviews.user_id = users.id WHERE books.id NOT IN ? GROUP BY books.title ORDER BY reviews.created_at DESC";
+  
+      $val = array($ids); // note array has to be nested to iterate through IDs
+  
+      return $this->db->query($query, $val)->result_array();
+    }
+    else
+    {
+      return array();
+    }
 
-    $val = array($ids); // note array has to be nested to iterate through IDs
-
-    return $this->db->query($query, $val)->result_array();
   }
   public function get_book_reviews($book_id)
   {
@@ -86,5 +94,19 @@ class Review_model extends CI_Model
     $val = array($review_id);
 
     return $this->db->query($query, $val);
+  }
+  public function get_user_reviews($user_id)
+  {
+    $query = "SELECT * FROM reviews RIGHT JOIN books ON reviews.book_id = books.id WHERE user_id = ? GROUP BY books.title ORDER BY reviews.created_at DESC";
+    $val = array($user_id);
+
+    return $this->db->query($query, $val)->result_array();
+  }
+  public function get_user_review_count($user_id)
+  {
+    $query = "SELECT COUNT(id) AS total_reviews FROM reviews WHERE user_id = ?";
+    $val = array($user_id);
+
+    return $this->db->query($query, $val)->row();
   }
 }

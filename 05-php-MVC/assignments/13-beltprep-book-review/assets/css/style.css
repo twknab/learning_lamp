@@ -1,0 +1,22 @@
+body {
+  font-family: arial, courier;
+}
+.date {
+  font-size: 12px;
+  font-style: italic;
+}
+.err {
+  padding: 15px;
+  border: 1px solid silver;
+  background: lightgrey;
+  text-align: center;
+  font-style: italic;
+  margin: 15px;
+}
+#more-reviews {
+  height: 100px;
+  overflow-y: scroll;
+}
+.nothing {
+  text-align: center;
+}

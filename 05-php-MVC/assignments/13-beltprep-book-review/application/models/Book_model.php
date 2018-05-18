@@ -33,6 +33,13 @@ class Book_model extends CI_Model
   }
   public function get_book($book_id)
   {
-    return $this->db->query("SELECT * FROM books RIGHT JOIN authors ON books.author_id = authors.id WHERE books.id = ?", array($book_id))->row();
+    return $this->db->query("SELECT books.id AS book_id, books.author_id, books.title, books.created_at, books.updated_at, authors.name FROM books RIGHT JOIN authors ON books.author_id = authors.id WHERE books.id = ?", array($book_id))->row();
+  }
+  public function destroy($book_id)
+  {
+    $query = "DELETE FROM books WHERE id = ?";
+    $val = array($book_id);
+
+    return $this->db->query($query, $val);
   }
 }
