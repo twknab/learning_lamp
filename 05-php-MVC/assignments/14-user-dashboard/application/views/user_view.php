@@ -1,3 +1,6 @@
+<?php 
+require_once(APPPATH.'modules/time.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,10 +20,11 @@
    <?php $user['first_name'] . $user['last_name']; ?>
  </h1>
  <fieldset>
+   <h1><?=$user['first_name'] . " " . $user['last_name']?></h1>
     <legend>User Info:</legend>
     <ul>
-      <li>Registered at: <?=$user['created_at']?></li>
-      <li>User ID: <?=$user['user_id']?></li>
+      <li>Registered: <?=date_format(new DateTime($user['created_at']), 'M dS, Y')?></li>
+      <li>User ID: <?=$user['id']?></li>
       <li>Email Address: <?=$user['email']?></li>
       <li>Description: 
         <p><?=$user['description']?></p>
@@ -44,13 +48,27 @@
     </form>
  </fieldset>
  <h2>Messages:</h2>
- <div class='message'>
-   <p>Mark Gullen wrote (7 hours ago):</p>
-   <p>Yo thiis is cool!</p>
-   <div class='comment'>
-     <p>Diana wrote: (23 minutes ago)</p>
-     <p>Awesome!</p>
-   </div>
+ <?php 
+  if (count($messages) >= 1) 
+  {
+    foreach ($messages as $message) 
+    {
+ ?>
+  <div class='message'>
+    <p><strong><a href="/users/show/<?=$message['user_id']?>"><?=$message['first_name'] . " " . $message['last_name']?></strong></a> wrote (<?php echo time_ago(strtotime($message['created_at']))?>):</p>
+    <p><?=$message['message']?></p>
+    <?php 
+      foreach ($comments as $comment) 
+      {
+        if ($comment['message_id'] === $message['id']) 
+        { ?>
+          <div class='comment'>
+            <p><a href="/users/show/<?=$comment['user_id']?>"><?=$comment['first_name'] . " " . $comment['last_name']?></a> wrote: (<?php echo time_ago(strtotime($comment['created_at']))?>)</p>
+            <p><?=$comment['comment']?></p>
+          </div>
+        <?php }
+      }
+    ?>
     <?php if (isset($errors_comment)) { ?>
       <div class="err"><?=$errors_comment?></div>
     <?php } ?>
@@ -58,9 +76,15 @@
       $hidden = array('sender_id' => $logged_in['id'], 'receiver_id' => $user['id'], 'message_id' => $message['id']);
       echo form_open('/comment', 'class="comment-form"', $hidden); 
     ?>
-      <textarea name="comment" id="comment" cols="30" rows="20" placeholder="Leave a comment here."></textarea>
+      <textarea name="comment" id="comment" cols="30" rows="10" placeholder="Leave a comment here."></textarea>
       <input type="submit" value="Post">
     </form>
- </div>
+  </div>
+ <?php }
+  } // NO MESSAGES YET
+  else { ?>
+    <p>No messages yet!</p>
+  <?php }
+ ?>
 </body>
 </html>

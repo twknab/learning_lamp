@@ -17,6 +17,10 @@ class Main extends CI_Controller
     {
       // Get Logged In User:
       $data['logged_in'] = $this->User_model->get_user($this->session->userdata('user_id'));
+      if (intval($data['logged_in']['user_level']) !== 9)
+      { // NORMAL USER DETECTED
+        redirect('/dashboard');
+      }
       // Get All Users:
       $data['users'] = $this->User_model->get_all_users();
       // Load Admin Dashboard Page:

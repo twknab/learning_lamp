@@ -341,10 +341,10 @@ class User extends CI_Controller
       $data['user'] = $this->User_model->get_user($user_id);
 
       // Get All Messages with sender_id name Joined for $user_id as receiver_id:
-      $data['messages'] = [];
+      $data['messages'] = $this->Message_model->get_all_messages($user_id);
 
       // Get All Comments with sender_id name Joined for $user_id as receiver_id:
-      $data['comments'] = [];
+      $data['comments'] = $this->Comment_model->get_all_comments($user_id);
 
       // Load View User Page:
       $this->load->view('user_view', $data);
@@ -371,7 +371,7 @@ class User extends CI_Controller
         }
         else 
         {
-          if (intval($user_id) === $this->session->userdata('user_id'))
+          if (intval($user_id) === intval($this->session->userdata('user_id')))
           {
             $this->logoff();
           } 

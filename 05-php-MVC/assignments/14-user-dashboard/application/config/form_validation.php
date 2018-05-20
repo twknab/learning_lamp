@@ -124,7 +124,21 @@ $config = array(
     array(
       'field' => 'description',
       'label' => 'Description',
-      'rules' => 'trim|min_length[8]|max_length[2000]',
+      'rules' => 'trim|min_length[2]|max_length[2000]',
+    ),
+  ),
+  'message' => array (
+    array(
+      'field' => 'message',
+      'label' => 'Message',
+      'rules' => 'trim|required|min_length[2]|max_length[1000]',
+    ),
+  ),
+  'comment' => array (
+    array(
+      'field' => 'comment',
+      'label' => 'Comment',
+      'rules' => 'trim|required|min_length[2]|max_length[1000]',
     ),
   ),
 );

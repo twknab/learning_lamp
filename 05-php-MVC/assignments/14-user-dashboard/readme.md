@@ -2,7 +2,6 @@
 
 To Do:
 
-- View user page working?
 - Comments and messages working?
 
 
