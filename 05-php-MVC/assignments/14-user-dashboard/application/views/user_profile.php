@@ -10,6 +10,7 @@
 <body>
   <ul class="top-nav">
     <li><a href="/load_dashboard">Dashboard</a>
+    <li><a href="/logoff">Log Off</a></li>
  <h1>Edit Profile</h1>
  <fieldset>
     <legend>Edit Information:</legend>
@@ -17,21 +18,20 @@
         <div class="err"><?=$errors_info?></div>
       <?php } ?>
       <?php 
-        $hidden = array('user_id' => $logged_in['id']);
-        echo form_open('/users/edit/info', '', $hidden); 
+        echo form_open('/users/edit/info'); 
       ?>
       <input type="email" name="email" id="email" placeholder="Email Address" value="<?=$logged_in['email']?>">
       <input type="text" name="first_name" id="first_name" placeholder="First Name" value="<?=$logged_in['first_name']?>">
       <input type="text" name="last_name" id="last_name" placeholder="Last Name" value="<?=$logged_in['last_name']?>">
-      <input type="submit" value="Save">
+      <input type="submit" value="Save Details">
     </form>
  </fieldset>
  <fieldset>
     <legend>Change Password:</legend>
-      <?php if (isset($errors_pass)) { ?>
-        <div class="err"><?=$errors_pass?></div>
+      <?php if (isset($errors_password)) { ?>
+        <div class="err"><?=$errors_password?></div>
       <?php } ?>
-      <?php 
+      <?php
         echo form_open('/users/edit/password'); 
       ?>
       <input type="password" name="password" id="password" placeholder="Password">
@@ -44,11 +44,11 @@
       <?php if (isset($errors_desc)) { ?>
         <div class="err"><?=$errors_desc?></div>
       <?php } ?>
-      <?php 
+      <?php
         echo form_open('/users/edit/desc'); 
       ?>
       <textarea name="description" id="description" cols="30" rows="20" placeholder="Enter a description about yourself."><?=$logged_in['description']?></textarea>
-      <input type="submit" value="Save">
+      <input type="submit" value="Save Description">
     </form>
  </fieldset>
 </body>

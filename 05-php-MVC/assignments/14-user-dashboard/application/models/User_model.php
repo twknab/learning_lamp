@@ -9,7 +9,7 @@ class User_model extends CI_Model
   }
   public function get_all_users()
   {
-    return $this->db->query("SELECT * FROM users ORDER BY created_at DESC")->result_array();
+    return $this->db->query("SELECT * FROM users ORDER BY last_name ASC")->result_array();
   }
   public function register_user($user)
   {
@@ -77,8 +77,11 @@ class User_model extends CI_Model
   }
   public function delete_user($user_id)
   {
-    $result = $this->db->query("DELETE FROM users WHERE id = ?", array($user_id));
-    if ($result) {
+    // $del_messages = $this->db->query("DELETE FROM messages WHERE receiver_id = ? OR sender_id = ?", array($user_id, $user_id));
+    // $del_comments = $this->db->query("DELETE FROM comments WHERE receiver_id = ? OR sender_id = ?", array($user_id, $user_id));
+    $del_user = $this->db->query("DELETE FROM users WHERE id = ?", array($user_id));
+
+    if ($del_user) {
       return TRUE; // USER DELETED
     } else {
       return FALSE; // FAILS
@@ -86,9 +89,92 @@ class User_model extends CI_Model
   }
   public function update_user_info($info)
   {
+    // See if anything has changed:
+    $user = $this->get_user($this->session->userdata('user_id'));
+    if ($user['email'] === $info['email'] && $user['first_name'] === $info['first_name'] && $user['last_name'] === $info['last_name'])
+    {
+      return array(FALSE, "<p>No user details were changed.</p>");
+    }
     // Validate update:
-    $this->form_validation->set_message('is_unique', 'This %s is already registered.');
-    if ($this->form_validation->run("edit_user_info") === FALSE) // FAILS
+    // If email has not changed, only validate first and last name:
+    if ($user['email'] === $info['email'])
+    {
+      // Validate all fields excluding email:
+      if ($this->form_validation->run("edit_user_info_no_email") === FALSE)
+      {
+        // Ship errors back to controller:
+        return array(FALSE, validation_errors());
+      } 
+      else // SUCCESS
+      {
+        // Write to database:
+        $query = "UPDATE users SET first_name = ?, last_name = ?, updated_at = ? WHERE id = ?";
+        $values = array($info['first_name'], $info['last_name'], date('Y-m-d H:i:s'), $this->session->userdata('user_id'));
+        $result = $this->db->query($query, $values);
+        if ($result) {
+          return TRUE; // USER INFO UPDATED
+        } else {
+          return array(FALSE, validation_errors()); // UPDATE FAILS
+        }
+      }
+    }
+    else  // Otherwise, also validate email:
+    {
+      $this->form_validation->set_message('is_unique', 'This %s is already registered.');
+      if ($this->form_validation->run("edit_user_info") === FALSE) // FAILS
+      {
+        // Ship errors back to controller:
+        return array(FALSE, validation_errors());
+      } 
+      else  // SUCCESS
+      {
+        // Write to database:
+        $query = "UPDATE users SET email = ?, first_name = ?, last_name = ?, updated_at = ? WHERE id = ?";
+        $values = array($info['email'], $info['first_name'], $info['last_name'], date('Y-m-d H:i:s'), $this->session->userdata('user_id'));
+        $result = $this->db->query($query, $values);
+        if ($result) {
+          return TRUE; // USER INFO UPDATED
+        } else {
+          return array(FALSE, validation_errors()); // UPDATE FAILS
+        }
+      }
+    }
+  }
+  public function update_user_password($password_info)
+  {
+    // Validate update:
+    if ($this->form_validation->run("edit_user_password") === FALSE)
+    {
+      // Ship errors back to controller:
+      return array(FALSE, validation_errors());
+    } 
+    else // SUCCESS
+    {
+      // Generate new salt and encrypt new password:
+      $salt = bin2hex(openssl_random_pseudo_bytes(22));
+      $encrypted_password = md5($password_info['password'] . "" . $salt);
+
+      // Write to database:
+      $query = "UPDATE users SET password = ?, salt = ?, updated_at = ? WHERE id = ?";
+      $values = array($encrypted_password, $salt, date('Y-m-d H:i:s'), $this->session->userdata('user_id'));
+      $result = $this->db->query($query, $values);
+      if ($result) {
+        return TRUE; // USER PASS UPDATED
+      } else {
+        return array(FALSE, validation_errors()); // UPDATE FAILS
+      }
+    }
+  }
+  public function update_user_desc($desc_info)
+  {
+    // See if anything has changed:
+    $user = $this->get_user($this->session->userdata('user_id'));
+    if ($user['description'] === $desc_info['description'])
+    {
+      return array(FALSE, "<p>Description has not changed.</p>");
+    }
+    // Validate update:
+    if ($this->form_validation->run("edit_user_desc") === FALSE)
     {
       // Ship errors back to controller:
       return array(FALSE, validation_errors());
@@ -96,17 +182,14 @@ class User_model extends CI_Model
     else // SUCCESS
     {
       // Write to database:
-      $query = "UPDATE users SET email = ?, first_name = ?, last_name = ?, updated_at = ? WHERE id = ?";
-      $values = array($info['email'], $info['first_name'], $info['last_name'], date('Y-m-d H:i:s'), $info['user_id']);
+      $query = "UPDATE users SET description = ?, updated_at = ? WHERE id = ?";
+      $values = array($desc_info['description'], date('Y-m-d H:i:s'), $this->session->userdata('user_id'));
       $result = $this->db->query($query, $values);
       if ($result) {
-        return TRUE; // USER UPDATED
+        return TRUE; // USER PASS UPDATED
       } else {
         return array(FALSE, validation_errors()); // UPDATE FAILS
       }
     }
-
   }
-  
 }
-  

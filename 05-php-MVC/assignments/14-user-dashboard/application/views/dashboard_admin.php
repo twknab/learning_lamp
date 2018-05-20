@@ -55,7 +55,7 @@
               <?php } ?>
             </td>
             <td>
-              <a href="users/edit/<?=$user['id']?>">Edit</a> <a href="users/remove/<?=$user['id']?>">Remove</a>
+              <a href="../users/edit/<?=$user['id']?>">Edit</a> <a href="../users/remove/<?=$user['id']?>">Remove</a>
             </td>
         </tr>
       <?php  } ?>

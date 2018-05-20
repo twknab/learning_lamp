@@ -9,7 +9,6 @@
 </head>
 <body>
   <ul class="top-nav">
-    <li><a href="/">User Dashboard</a></li>
     <li><a href="../../load_dashboard">Dashboard</a></li>
     <li><a href="../edit">Profile</a></li>
     <li><a href="../../logoff">Logoff</a></li>
@@ -17,11 +16,11 @@
  <h1>Add a New User</h1>
  <fieldset>
     <legend>Add New User below:</legend>
-      <?php if (isset($errors_registration)) { ?>
-        <div class="err"><?=$errors_registration?></div>
+      <?php if (isset($errors_new_user)) { ?>
+        <div class="err"><?=$errors_new_user?></div>
       <?php } ?>
       <?php 
-        $hidden = array('description' => ''); 
+        $hidden = array('description' => '', 'form_name' => 'admin_add_user'); 
         echo form_open('/register', '', $hidden); 
       ?>
       <input type="email" name="email" id="email" placeholder="Email Address">

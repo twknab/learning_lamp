@@ -3,11 +3,7 @@
 To Do:
 
 
-- User profile, and edit/remove links working for Admin?
-- add new user page working? fix it/
-- User profile page working for User on dashboard?
-- Edit profile page loading?
-- Update profile
+- User profile, and edit links working for Admin?
 - View user page working?
 - Comments and messages working?
 - Admin edit profile working?

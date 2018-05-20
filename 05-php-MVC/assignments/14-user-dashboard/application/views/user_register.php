@@ -19,7 +19,7 @@
         <div class="err"><?=$errors_registration?></div>
       <?php } ?>
       <?php 
-        $hidden = array('description' => ''); 
+        $hidden = array('description' => '', 'form_name' => 'register'); 
         echo form_open('/register', '', $hidden); 
       ?>
       <input type="email" name="email" id="email" placeholder="Email Address">

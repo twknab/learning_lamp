@@ -65,14 +65,26 @@ class User extends CI_Controller
       // If errors are returned, save to flash session, and send back to home:
       if ($new_user[0] === FALSE)
       {
-        $this->session->set_flashdata('errors_registration', $new_user[1]);
-        redirect("/register");
+        if ($this->input->post('form_name') === 'register')
+        {
+          $this->session->set_flashdata('errors_registration', $new_user[1]);
+          redirect("/register");
+        }
+        else if ($this->input->post('form_name') === 'admin_add_user')
+        {
+          $this->session->set_flashdata('errors_new_user', $new_user[1]);
+          redirect("/users/new");
+        }
+
       }
       else // SUCCESS
       {
-        // Store user_id to session, 
-        $this->session->set_userdata('user_id', $new_user[1]);
-
+        if ($this->input->post('form_name') === 'register')
+        {
+          // Store user_id to session, 
+          $this->session->set_userdata('user_id', $new_user[1]);
+        }
+        // Load dashboard:
         redirect('/load_dashboard');
       }
     }
@@ -99,8 +111,14 @@ class User extends CI_Controller
     {
       if ($this->input->method(TRUE) === 'GET')
       {
+        $data = [];
+         // Get any flash message errors:
+        if ($this->session->flashdata('errors_new_user')) 
+        {
+          $data["errors_new_user"] = $this->session->flashdata('errors_new_user');
+        }
         // Load Index Page:
-        $this->load->view("user_add");
+        $this->load->view("user_add", $data);
       } 
       else if ($this->input->method(TRUE) === 'POST')
       {
@@ -125,6 +143,14 @@ class User extends CI_Controller
         if ($this->session->flashdata('errors_info')) 
         {
           $data["errors_info"] = $this->session->flashdata('errors_info');
+        }
+        if ($this->session->flashdata('errors_password')) 
+        {
+          $data["errors_password"] = $this->session->flashdata('errors_password');
+        }
+        if ($this->session->flashdata('errors_desc')) 
+        {
+          $data["errors_desc"] = $this->session->flashdata('errors_desc');
         }
 
         // Get Logged In User:
@@ -155,7 +181,6 @@ class User extends CI_Controller
         $user_info = $this->security->xss_clean($user_info);
         // Ship to model for validation:
         $update_info = $this->User_model->update_user_info($user_info);
-
         // If errors are returned, save to flash session, and send back to home:
         if ($update_info[0] === FALSE)
         {
@@ -181,7 +206,19 @@ class User extends CI_Controller
     {
       if ($this->input->method(TRUE) === 'POST')
       {
-        echo "UPDATING";
+        // Get Post Data:
+        $updated_password = $this->input->post();
+        // Run XSS filter (CSRF protection is automatically added in form helper)
+        $updated_password = $this->security->xss_clean($updated_password);
+        // Ship to model for validation:
+        $update_pass = $this->User_model->update_user_password($updated_password);
+        // If errors are returned, save to flash session, and send back to home:
+        if ($update_pass[0] === FALSE)
+        {
+          $this->session->set_flashdata('errors_password', $update_pass[1]);
+        }
+        // Load user edit page again:
+        redirect('/users/edit');
       } 
       else 
       {
@@ -200,7 +237,19 @@ class User extends CI_Controller
     {
       if ($this->input->method(TRUE) === 'POST')
       {
-        echo "UPDATING";
+        // Get Post Data:
+        $updated_desc = $this->input->post();
+        // Run XSS filter (CSRF protection is automatically added in form helper)
+        $updated_desc = $this->security->xss_clean($updated_desc);
+        // Ship to model for validation:
+        $description = $this->User_model->update_user_desc($updated_desc);
+        // If errors are returned, save to flash session, and send back to home:
+        if ($description[0] === FALSE)
+        {
+          $this->session->set_flashdata('errors_desc', $description[1]);
+        }
+        // Load user edit page again:
+        redirect('/users/edit');
       } 
       else 
       {
@@ -290,30 +339,32 @@ class User extends CI_Controller
     // Check for session:
     if ($this->session->userdata('user_id') !== null) 
     {
-      // Get any Flash Errors for Comments or Messages:
-      if ($this->session->flashdata('errors_message')) 
+      if ($this->input->method(TRUE) === 'GET')
       {
-        $data["errors_message"] = $this->session->flashdata('errors_message');
-      }
-      if ($this->session->flashdata('errors_comment')) 
+        // Destroy user:
+        $destroyed_user = $this->User_model->delete_user($user_id);
+
+        if ($destroyed_user === FALSE)
+        {
+          echo "Error deleting user! Contact admin!";
+          die();
+        }
+        else 
+        {
+          if (intval($user_id) === $this->session->userdata('user_id'))
+          {
+            $this->logoff();
+          } 
+          else
+          {
+            redirect('/load_dashboard');
+          }
+        }
+      } 
+      else if ($this->input->method(TRUE) === 'POST')
       {
-        $data["errors_comment"] = $this->session->flashdata('errors_comment');
+        redirect('/');
       }
-
-      // Get Logged In User:
-      $data['logged_in'] = $this->User_model->get_user($this->session->userdata('user_id'));
-
-      // Get user by $user_id:
-      $data['user'] = $this->User_model->get_user($user_id);
-
-      // Get All Messages with sender_id name Joined for $user_id as receiver_id:
-      $data['messages'] = [];
-
-      // Get All Comments with sender_id name Joined for $user_id as receiver_id:
-      $data['comments'] = [];
-
-      // Load View User Page:
-      $this->load->view('user_view', $data);
     } 
     else
     {
