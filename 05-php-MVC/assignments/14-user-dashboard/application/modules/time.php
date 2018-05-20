@@ -1,5 +1,5 @@
 <?php 
-
+defined('BASEPATH') or exit('No direct script access allowed');
 function time_ago( $time )
 {
     $time_difference = time() - $time;
