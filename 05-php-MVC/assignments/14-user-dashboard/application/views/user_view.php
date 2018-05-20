@@ -9,20 +9,7 @@
 </head>
 <body>
   <ul class="top-nav">
-    <li><a href="/">User Dashboard</a></li>
-    <li>
-      <?php 
-        if ($logged_in['user_level'] === 9)
-        { ?>
-          <a href="../../dashboard">
-        <?php  }
-        else
-        { ?>
-        <a href="../../dashboard/admin">
-        <?php }
-      ?>Dashboard
-      </a>
-    </li>
+    <li><a href="../../load_dashboard">Dashboard</a></li>
     <li><a href="../edit">Profile</a></li>
     <li><a href="../../logoff">Logoff</a></li>
   </ul>

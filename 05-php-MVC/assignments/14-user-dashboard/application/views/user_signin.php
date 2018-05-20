@@ -9,7 +9,6 @@
 </head>
 <body>
   <ul class="top-nav">
-    <li><a href="/">User Dashboard</a></li>
     <li><a href="/">Home</a></li>
     <li><a href="/register">Register</a></li>
   </ul>
@@ -23,7 +22,9 @@
       <input type="email" name="email" id="email" placeholder="Email Address">
       <input type="password" name="password" id="password" placeholder="Password">
       <input type="submit" value="Sign In">
-      <a href="/register">Don't have an account? Register</a>
+      <p>
+        <a href="/register">Don't have an account? Register</a>
+      </p>
     </form>
  </fieldset>
 </body>

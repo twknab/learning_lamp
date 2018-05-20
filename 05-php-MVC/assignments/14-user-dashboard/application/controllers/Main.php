@@ -27,14 +27,46 @@ class Main extends CI_Controller
       redirect('/');
     }
   }
-  public function dashboard()
+  public function dashboard_user()
+  {
+    // Array to hold data for dashboard:
+    $data = [];
+    // Check for valid session:
+    if ($this->session->userdata('user_id') !== NULL)
+    {
+      // Get Logged In User:
+      $data['logged_in'] = $this->User_model->get_user($this->session->userdata('user_id'));
+      // Get All Users:
+      $data['users'] = $this->User_model->get_all_users();
+      // Load User Dashboard Page:
+      $this->load->view("dashboard_user", $data);
+    }
+    else 
+    {
+      redirect('/');
+    }
+  }
+  public function load_dashboard()
   {
     $data = [];
     // Check for valid session:
-      // Get User:
-      // Get All Users:
-
-    // Load Normal User Dashboard Page:
-    $this->load->view("dashboard", $data);
+    if ($this->session->userdata('user_id') !== NULL)
+    {
+      // Get user's user level:
+      $access_level = $this->User_model->get_user($this->session->userdata('user_id'));
+      if (intval($access_level['user_level']) === 9)
+      { // ADMIN DETECTED
+        redirect('/dashboard/admin');
+      }
+      else
+      {
+        // Redirect to normal dashboard:
+        redirect('/dashboard');
+      }
+    }
+    else 
+    {
+      redirect('/');
+    }
   }
 }

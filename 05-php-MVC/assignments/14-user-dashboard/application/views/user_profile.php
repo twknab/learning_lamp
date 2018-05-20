@@ -9,23 +9,7 @@
 </head>
 <body>
   <ul class="top-nav">
-    <li><a href="/">User Dashboard</a></li>
-    <li>
-      <?php 
-        if ($logged_in['user_level'] === 9)
-        { ?>
-          <a href="../../dashboard">
-        <?php  }
-        else
-        { ?>
-        <a href="../../dashboard/admin">
-        <?php }
-      ?>Dashboard
-      </a>
-    </li>
-    <li><a href="../edit">Profile</a></li>
-    <li><a href="../../logoff">Logoff</a></li>
-  </ul>
+    <li><a href="/load_dashboard">Dashboard</a>
  <h1>Edit Profile</h1>
  <fieldset>
     <legend>Edit Information:</legend>
@@ -35,9 +19,9 @@
       <?php 
         echo form_open('/users/edit/info'); 
       ?>
-      <input type="email" name="email" id="email" placeholder="Email Address">
-      <input type="text" name="first_name" id="first_name" placeholder="First Name">
-      <input type="text" name="last_name" id="last_name" placeholder="Last Name">
+      <input type="email" name="email" id="email" placeholder="Email Address" value="<?=$logged_in['email']?>">
+      <input type="text" name="first_name" id="first_name" placeholder="First Name" value="<?=$logged_in['first_name']?>">
+      <input type="text" name="last_name" id="last_name" placeholder="Last Name" value="<?=$logged_in['last_name']?>">
       <input type="submit" value="Save">
     </form>
  </fieldset>
@@ -49,9 +33,8 @@
       <?php 
         echo form_open('/users/edit/password'); 
       ?>
-      <input type="email" name="email" id="email" placeholder="Email Address">
-      <input type="text" name="first_name" id="first_name" placeholder="First Name">
-      <input type="text" name="last_name" id="last_name" placeholder="Last Name">
+      <input type="password" name="password" id="password" placeholder="Password">
+      <input type="password" name="password_confirm" id="password_confirm" placeholder="Password Confirmation">
       <input type="submit" value="Update Password">
     </form>
  </fieldset>
@@ -63,7 +46,7 @@
       <?php 
         echo form_open('/users/edit/desc'); 
       ?>
-      <textarea name="description" id="description" cols="30" rows="20" placeholder="Enter a description about yourself."></textarea>
+      <textarea name="description" id="description" cols="30" rows="20" placeholder="Enter a description about yourself."><?=$logged_in['description']?></textarea>
       <input type="submit" value="Save">
     </form>
  </fieldset>

@@ -9,7 +9,6 @@
 </head>
 <body>
   <ul class="top-nav">
-    <li><a href="/">User Dashboard</a></li>
     <li><a href="/">Home</a></li>
     <li><a href="/signin">Sigin</a></li>
   </ul>
@@ -29,7 +28,9 @@
       <input type="password" name="password" id="password" placeholder="Password">
       <input type="password" name="password_confirm" id="password_confirm" placeholder="Password Confirmation">
       <input type="submit" value="Register">
-      <a href="/signin">Already have an account? Login!</a>
+      <p>
+        <a href="/signin">Already have an account? Login!</a>
+      </p>
     </form>
  </fieldset>
 </body>

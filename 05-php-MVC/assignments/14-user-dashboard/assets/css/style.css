@@ -37,3 +37,6 @@ table {
 .comment-form {
 
 }
+fieldset {
+  margin: 15px;
+}

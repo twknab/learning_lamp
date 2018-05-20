@@ -12,10 +12,7 @@
 <body>
   <ul class="top-nav">
     <li>
-      <a href="/">User Dashboard</a>
-    </li>
-    <li>
-      <a href="/dashboard">Dashboard</a>
+      <a href="/load_dashboard">Dashboard</a>
     </li>
     <li>
       <a href="/users/edit">Profile</a>
@@ -25,11 +22,6 @@
     </li>
   </ul>
   <h1>Manage Users</h1>
-  <?php 
-    echo form_open('/users/new', 'method="GET"'); 
-  ?>
-    <input type="submit" value="Add New">
-  </form>
   <fieldset>
     <legend>Manage Users Below:</legend>
     <table>
@@ -43,20 +35,15 @@
       <?php foreach ($users as $user) { ?>
         <tr>
             <td><?=$user['id']?></td>
+            <td><?=$user['first_name'] . " " .$user['last_name']?></td>
             <td><?=$user['email']?></td>
-            <td><?=$user['created_at']?></td>
-            <td>
-              <?php 
-                if ($user['user_level'] === 9)
-                { ?>
+            <td><?=date_format(new DateTime($user['created_at']), 'M dS, Y')?></td>
+            <td>                
+              <?php if (intval($user['user_level']) === 9) { ?>
                   <p>admin</p>
-              <?php }
-                else
-                { ?>
+              <?php } else { ?>
                   <p>normal</p>
-              <?php  }
-              ?>
-              <?=$user['user_level']?>
+              <?php } ?>
             </td>
         </tr>
       <?php  } ?>

@@ -10,7 +10,7 @@
 <body>
   <ul class="top-nav">
     <li><a href="/">User Dashboard</a></li>
-    <li><a href="/dashboard">Dashboard</a>
+    <li><a href="/load_dashboard">Dashboard</a>
     </li>
     <li><a href="../edit">Profile</a></li>
     <li><a href="../../logoff">Logoff</a></li>
