@@ -1,0 +1,39 @@
+body {
+  font-family: arial, courier;
+}
+
+.top-nav,
+.top-nav>li {
+  display: inline-block;
+  padding: 5px;
+  margin: 5px;
+}
+
+.err {
+  padding: 15px;
+  border: 1px solid silver;
+  background: lightgrey;
+  text-align: center;
+  font-style: italic;
+  margin: 15px;
+}
+
+tr {
+  text-align: center;
+}
+
+table {
+  padding: 15px;
+  width: 100%;
+  background-color: aliceblue;
+}
+
+.comment {
+
+}
+.message {
+
+}
+.comment-form {
+
+}
