@@ -104,7 +104,7 @@ class User extends CI_Controller
       redirect('/');
     }
   }
-  public function add_new_user()
+  public function admin_add_user()
   {
     // Check for session:
     if ($this->session->userdata('user_id') !== null) 
@@ -118,7 +118,39 @@ class User extends CI_Controller
           $data["errors_new_user"] = $this->session->flashdata('errors_new_user');
         }
         // Load Index Page:
-        $this->load->view("user_add", $data);
+        $this->load->view("user_admin_add", $data);
+      } 
+      else if ($this->input->method(TRUE) === 'POST')
+      {
+        redirect('/');
+      }
+    } 
+    else
+    {
+      redirect('/');
+    }
+  }
+  public function admin_edit_user($user_id)
+  {
+    // Check for session:
+    if ($this->session->userdata('user_id') !== null) 
+    {
+      if ($this->input->method(TRUE) === 'GET')
+      {
+        $data = [];
+         // Get any flash message errors:
+        if ($this->session->flashdata('errors_info')) 
+        {
+          $data["errors_info"] = $this->session->flashdata('errors_info');
+        }
+        if ($this->session->flashdata('errors_password')) 
+        {
+          $data["errors_password"] = $this->session->flashdata('errors_password');
+        }
+        // Get user:
+        $data['user'] = $this->User_model->get_user($user_id);
+        // Load Index Page:
+        $this->load->view("user_admin_edit", $data);
       } 
       else if ($this->input->method(TRUE) === 'POST')
       {
@@ -179,15 +211,33 @@ class User extends CI_Controller
         $user_info = $this->input->post();
         // Run XSS filter (CSRF protection is automatically added in form helper)
         $user_info = $this->security->xss_clean($user_info);
-        // Ship to model for validation:
-        $update_info = $this->User_model->update_user_info($user_info);
-        // If errors are returned, save to flash session, and send back to home:
-        if ($update_info[0] === FALSE)
+  
+        // If normal edit user form:
+        if ($user_info['form_name'] === 'edit_info')
         {
-          $this->session->set_flashdata('errors_info', $update_info[1]);
+          // Ship to model for validation:
+          $update_info = $this->User_model->update_user_info($user_info);
+          // If errors are returned, save to flash session, and send back to home:
+          if ($update_info[0] === FALSE)
+          {
+            $this->session->set_flashdata('errors_info', $update_info[1]);
+          }
+          // Load user edit page again:
+          redirect('/users/edit');
         }
-        // Load user edit page again:
-        redirect('/users/edit');
+        // If admin edit user form:
+        else if ($user_info['form_name'] === 'admin_edit_info')
+        {
+          // Ship to model for validation:
+          $update_info = $this->User_model->admin_update_user_info($user_info);
+          // If errors are returned, save to flash session, and send back to home:
+          if ($update_info[0] === FALSE)
+          {
+            $this->session->set_flashdata('errors_info', $update_info[1]);
+          }
+          // Load admin user edit page:
+          redirect('/users/edit/' . $user_info['user_id']);
+        }
       } 
       else 
       {
@@ -217,8 +267,16 @@ class User extends CI_Controller
         {
           $this->session->set_flashdata('errors_password', $update_pass[1]);
         }
-        // Load user edit page again:
-        redirect('/users/edit');
+        if ($updated_password['form_name'] === 'edit_pass')
+        {
+          // Load user edit page again:
+          redirect('/users/edit');
+        }
+        else if ($updated_password['form_name'] === 'admin_edit_pass')
+        {
+          // Load admin edit page again:
+          redirect('/users/edit/' . $updated_password['user_id']);
+        }
       } 
       else 
       {
@@ -250,44 +308,6 @@ class User extends CI_Controller
         }
         // Load user edit page again:
         redirect('/users/edit');
-      } 
-      else 
-      {
-        redirect('/');
-      }
-    } 
-    else
-    {
-      redirect('/');
-    }
-  }
-  public function admin_update_info()
-  {
-    // Check for session:
-    if ($this->session->userdata('user_id') !== null) 
-    {
-      if ($this->input->method(TRUE) === 'POST')
-      {
-        echo "UPDATING";
-      } 
-      else 
-      {
-        redirect('/');
-      }
-    } 
-    else
-    {
-      redirect('/');
-    }
-  }
-  public function admin_update_pass()
-  {
-    // Check for session:
-    if ($this->session->userdata('user_id') !== null) 
-    {
-      if ($this->input->method(TRUE) === 'POST')
-      {
-        echo "UPDATING";
       } 
       else 
       {

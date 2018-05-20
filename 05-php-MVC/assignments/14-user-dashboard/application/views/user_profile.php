@@ -18,7 +18,8 @@
         <div class="err"><?=$errors_info?></div>
       <?php } ?>
       <?php 
-        echo form_open('/users/edit/info'); 
+        $hidden = array('form_name' => 'edit_info');
+        echo form_open('/users/edit/info', '', $hidden); 
       ?>
       <input type="email" name="email" id="email" placeholder="Email Address" value="<?=$logged_in['email']?>">
       <input type="text" name="first_name" id="first_name" placeholder="First Name" value="<?=$logged_in['first_name']?>">
@@ -32,7 +33,8 @@
         <div class="err"><?=$errors_password?></div>
       <?php } ?>
       <?php
-        echo form_open('/users/edit/password'); 
+        $hidden = array('form_name' => 'edit_pass');
+        echo form_open('/users/edit/password', '', $hidden); 
       ?>
       <input type="password" name="password" id="password" placeholder="Password">
       <input type="password" name="password_confirm" id="password_confirm" placeholder="Password Confirmation">

@@ -140,6 +140,68 @@ class User_model extends CI_Model
       }
     }
   }
+  public function admin_update_user_info($info)
+  {
+    // See if anything has changed:
+    $user = $this->get_user($info['user_id']);
+
+    if ($user['email'] === $info['email'] && $user['first_name'] === $info['first_name'] && $user['last_name'] === $info['last_name'] && intval($user['user_level']) === intval($info['user_level']))
+    {
+      return array(FALSE, "<p>No user details were changed.</p>");
+    }
+    // Validate update:
+    // If email has not changed, only validate first, last name, user level:
+    if ($user['email'] === $info['email'])
+    {
+      // Validate all fields excluding email:
+      if ($this->form_validation->run("admin_edit_user_info_no_email") === FALSE)
+      {
+        // Ship errors back to controller:
+        return array(FALSE, validation_errors());
+      } 
+      else // SUCCESS
+      {
+        if (intval($this->get_user($this->session->userdata['user_id'])['user_level']) === 9)
+        {
+          // Write to database:
+          $query = "UPDATE users SET first_name = ?, last_name = ?, user_level = ?, updated_at = ? WHERE id = ?";
+          $values = array($info['first_name'], $info['last_name'], $info['user_level'], date('Y-m-d H:i:s'), $info['user_id']);
+          $result = $this->db->query($query, $values);
+          if ($result) {
+            return TRUE; // USER INFO UPDATED
+          } else {
+            return array(FALSE, validation_errors()); // UPDATE FAILS
+          }
+        }
+        else 
+        {
+          echo "DENIED.";
+          die();
+        }
+      }
+    }
+    else  // Otherwise, also validate email:
+    {
+      $this->form_validation->set_message('is_unique', 'This %s is already registered.');
+      if ($this->form_validation->run("admin_edit_user_info") === FALSE) // FAILS
+      {
+        // Ship errors back to controller:
+        return array(FALSE, validation_errors());
+      } 
+      else  // SUCCESS
+      {
+        // Write to database:
+        $query = "UPDATE users SET email = ?, first_name = ?, last_name = ?, updated_at = ? WHERE id = ?";
+        $values = array($info['email'], $info['first_name'], $info['last_name'], date('Y-m-d H:i:s'), $info['user_id']);
+        $result = $this->db->query($query, $values);
+        if ($result) {
+          return TRUE; // USER INFO UPDATED
+        } else {
+          return array(FALSE, validation_errors()); // UPDATE FAILS
+        }
+      }
+    }
+  }
   public function update_user_password($password_info)
   {
     // Validate update:
@@ -154,9 +216,18 @@ class User_model extends CI_Model
       $salt = bin2hex(openssl_random_pseudo_bytes(22));
       $encrypted_password = md5($password_info['password'] . "" . $salt);
 
+      // If password change is coming from admin edit page, and currently logged in user is indeed an admin, allow the user password change:
+      if ($password_info['form_name'] === 'admin_edit_pass' && intval($this->get_user($this->session->userdata['user_id'])['user_level']) === 9)
+      {
+        $user_id = $password_info['user_id'];
+      }
+      else if ($password_info['form_name'] === 'edit_pass'){
+        $user_id = $this->session->userdata('user_id');
+      }
+
       // Write to database:
       $query = "UPDATE users SET password = ?, salt = ?, updated_at = ? WHERE id = ?";
-      $values = array($encrypted_password, $salt, date('Y-m-d H:i:s'), $this->session->userdata('user_id'));
+      $values = array($encrypted_password, $salt, date('Y-m-d H:i:s'), $user_id);
       $result = $this->db->query($query, $values);
       if ($result) {
         return TRUE; // USER PASS UPDATED

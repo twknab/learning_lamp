@@ -57,6 +57,28 @@ $config = array(
       'rules' => 'trim|required|min_length[5]|valid_email|is_unique[users.email]',
     ),
   ),
+  'admin_edit_user_info' => array (
+    array(
+      'field' => 'first_name',
+      'label' => 'First Name',
+      'rules' => 'trim|required|min_length[2]',
+    ),
+    array(
+      'field' => 'last_name',
+      'label' => 'Last Name',
+      'rules' => 'trim|required|min_length[2]',
+    ),
+    array(
+      'field' => 'email',
+      'label' => 'Email',
+      'rules' => 'trim|required|min_length[5]|valid_email|is_unique[users.email]',
+    ),
+    array(
+      'field' => 'user_level',
+      'label' => 'User Level',
+      'rules' => 'trim|required',
+    ),
+  ),
   'edit_user_info_no_email' => array (
     array(
       'field' => 'first_name',
@@ -67,6 +89,23 @@ $config = array(
       'field' => 'last_name',
       'label' => 'Last Name',
       'rules' => 'trim|required|min_length[2]',
+    ),
+  ),
+  'admin_edit_user_info_no_email' => array (
+    array(
+      'field' => 'first_name',
+      'label' => 'First Name',
+      'rules' => 'trim|required|min_length[2]',
+    ),
+    array(
+      'field' => 'last_name',
+      'label' => 'Last Name',
+      'rules' => 'trim|required|min_length[2]',
+    ),
+    array(
+      'field' => 'user_level',
+      'label' => 'User Level',
+      'rules' => 'trim|required',
     ),
   ),
   'edit_user_password' => array (
