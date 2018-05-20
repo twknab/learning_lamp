@@ -14,3 +14,5 @@ To Do:
 - Update of other user's profile working?
 
 
+## Refactor:
++ Create a function for getting flash data values to reduce all the repeating code.

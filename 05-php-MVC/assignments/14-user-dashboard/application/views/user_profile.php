@@ -17,7 +17,8 @@
         <div class="err"><?=$errors_info?></div>
       <?php } ?>
       <?php 
-        echo form_open('/users/edit/info'); 
+        $hidden = array('user_id' => $logged_in['id']);
+        echo form_open('/users/edit/info', '', $hidden); 
       ?>
       <input type="email" name="email" id="email" placeholder="Email Address" value="<?=$logged_in['email']?>">
       <input type="text" name="first_name" id="first_name" placeholder="First Name" value="<?=$logged_in['first_name']?>">

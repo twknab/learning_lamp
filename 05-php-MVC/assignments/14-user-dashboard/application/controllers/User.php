@@ -121,6 +121,12 @@ class User extends CI_Controller
       {
         // Create Array to hold Data:
         $data = [];
+        // Get any flash message errors:
+        if ($this->session->flashdata('errors_info')) 
+        {
+          $data["errors_info"] = $this->session->flashdata('errors_info');
+        }
+
         // Get Logged In User:
         $data['logged_in'] = $this->User_model->get_user($this->session->userdata('user_id'));
         // Load Index Page:
@@ -143,7 +149,20 @@ class User extends CI_Controller
     {
       if ($this->input->method(TRUE) === 'POST')
       {
-        echo "UPDATING";
+        // Get Post Data:
+        $user_info = $this->input->post();
+        // Run XSS filter (CSRF protection is automatically added in form helper)
+        $user_info = $this->security->xss_clean($user_info);
+        // Ship to model for validation:
+        $update_info = $this->User_model->update_user_info($user_info);
+
+        // If errors are returned, save to flash session, and send back to home:
+        if ($update_info[0] === FALSE)
+        {
+          $this->session->set_flashdata('errors_info', $update_info[1]);
+        }
+        // Load user edit page again:
+        redirect('/users/edit');
       } 
       else 
       {

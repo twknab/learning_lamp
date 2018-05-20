@@ -40,31 +40,21 @@ $config = array(
       'rules' => 'trim|required|min_length[5]',
     ),
   ),
-  'review' => array (
+  'edit_user_info' => array (
     array(
-      'field' => 'title',
-      'label' => 'Title',
+      'field' => 'first_name',
+      'label' => 'First Name',
       'rules' => 'trim|required|min_length[2]',
     ),
     array(
-      'field' => 'new_author',
-      'label' => 'New author',
-      'rules' => 'trim|min_length[2]|is_unique[authors.name]',
-    ),
-    array(
-      'field' => 'description',
-      'label' => 'Description',
+      'field' => 'last_name',
+      'label' => 'Last Name',
       'rules' => 'trim|required|min_length[2]',
     ),
     array(
-      'field' => 'rating',
-      'label' => 'Rating',
-      'rules' => 'required',
-    ),
-    array(
-      'field' => 'user_id',
-      'label' => 'User ID',
-      'rules' => 'required',
+      'field' => 'email',
+      'label' => 'Email',
+      'rules' => 'trim|required|min_length[5]|valid_email|is_unique[users.email]',
     ),
   ),
 );

@@ -84,5 +84,29 @@ class User_model extends CI_Model
       return FALSE; // FAILS
     }
   }
+  public function update_user_info($info)
+  {
+    // Validate update:
+    $this->form_validation->set_message('is_unique', 'This %s is already registered.');
+    if ($this->form_validation->run("edit_user_info") === FALSE) // FAILS
+    {
+      // Ship errors back to controller:
+      return array(FALSE, validation_errors());
+    } 
+    else // SUCCESS
+    {
+      // Write to database:
+      $query = "UPDATE users SET email = ?, first_name = ?, last_name = ?, updated_at = ? WHERE id = ?";
+      $values = array($info['email'], $info['first_name'], $info['last_name'], date('Y-m-d H:i:s'), $info['user_id']);
+      $result = $this->db->query($query, $values);
+      if ($result) {
+        return TRUE; // USER UPDATED
+      } else {
+        return array(FALSE, validation_errors()); // UPDATE FAILS
+      }
+    }
+
+  }
+  
 }
   
